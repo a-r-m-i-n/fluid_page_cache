@@ -1,0 +1,22 @@
+{
+    "name": "t3/fluid_page_cache",
+    "type": "typo3-cms-extension",
+    "description": "Creates automatically tags for TYPO3's page cache, based on used variables in rendered Fluid templates on current page.",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Armin Vieweg",
+            "role": "Developer",
+            "email": "armin@v.ieweg.de",
+            "homepage": "https://v.ieweg.de"
+        }
+    ],
+    "require": {
+        "typo3/cms-core": "^8.7 || ^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "T3\\FluidPageCache\\": "Classes/"
+        }
+    }
+}
