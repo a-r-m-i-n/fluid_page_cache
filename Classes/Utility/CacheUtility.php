@@ -23,6 +23,7 @@ class CacheUtility
      * This method only works in Frontend context and when $GLOBALS['TSFE'] is available.
      *
      * @param AbstractEntity|mixed $entity
+     * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception
      */
     public static function registerEntity($entity)
     {
@@ -40,6 +41,7 @@ class CacheUtility
 
     /**
      * @param AbstractEntity|mixed $entity
+     * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception
      */
     private static function processSingleEntity($entity)
     {

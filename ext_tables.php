@@ -8,6 +8,6 @@ if (TYPO3_MODE === 'BE') {
         'web_info',
         \T3\FluidPageCache\Reports\PageCacheReport::class,
         null,
-        'Auto Page Cache'
+        'Fluid Page Cache'
     );
 }

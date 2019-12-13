@@ -7,7 +7,9 @@
     </f:then>
     <f:else>
         <div class="pull-right"><f:be.pageInfo /></div>
-        <h1>Auto Page Cache Info</h1>
+        <h1>Fluid Page Cache Info
+            <f:if condition="{identifiers -> f:count()} == 0"><span class="badge">{identifiers -> f:count()}</span></f:if>
+        </h1>
 
 
         <f:if condition="{identifiers -> f:count()} == 0">
@@ -17,23 +19,20 @@
             <f:else>
                 <f:for each="{identifiers}" key="identifier" as="tags">
                     <fieldset style="margin-bottom: 3rem;">
-                        <legend>Page Cache Identifier: {identifier}</legend>
+                        <legend>Page Variation "{identifier}"</legend>
 
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>Record</th>
                                     <th>Identifier</th>
                                     <th>Table</th>
                                     <th>Uid</th>
-                                    <th>Record</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <f:for each="{tags}" as="tag">
                                     <tr>
-                                        <td><code>{tag.tag}</code></td>
-                                        <td>{tag.table}</td>
-                                        <td>{tag.uid}</td>
                                         <td>
                                             <f:if condition="{tag.row}">
                                                 <f:then>
@@ -49,6 +48,9 @@
                                                 </f:else>
                                             </f:if>
                                         </td>
+                                        <td><code>{tag.tag}</code></td>
+                                        <td>{tag.table}</td>
+                                        <td>{tag.uid}</td>
                                     </tr>
                                 </f:for>
                             </tbody>

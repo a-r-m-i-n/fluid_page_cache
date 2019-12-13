@@ -20,6 +20,7 @@ class DataHandlerHook
                 $cacheTag = $params['table'] . '_' . $params['uid'];
 
                 $cacheTagsToFlush = [$cacheTag];
+                /** @var CacheManager $cacheManager */
                 $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
                 foreach ($cacheTagsToFlush as $cacheTag) {
                     $cacheManager->flushCachesInGroupByTag('pages', $cacheTag);
