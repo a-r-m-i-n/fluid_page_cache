@@ -9,9 +9,7 @@ $boot = function() {
             \T3\FluidPageCache\Hooks\DataHandlerHook::class . '->clearCachePostProc';
     }
 
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Fluid\Core\Variables\CmsVariableProvider::class] = [
-        'className' => \T3\FluidPageCache\XClasses\CmsVariableProvider::class
-    ];
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['interceptors']['fluid_page_cache'] = \T3\FluidPageCache\Fluid\PageCacheInterceptor::class;
 };
 $boot();
 unset($boot);

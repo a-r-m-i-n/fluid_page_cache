@@ -7,7 +7,9 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\DomainObject\AbstractValueObject;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Generic\LazyObjectStorage;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 class CacheUtility
 {
@@ -39,6 +41,11 @@ class CacheUtility
             return;
         }
         if (is_iterable($entity)) {
+            if (($entity instanceof QueryResultInterface) ||
+                ($entity instanceof LazyObjectStorage && !$entity->isInitialized())
+            ) {
+                return;
+            }
             foreach ($entity as $singleEntity) {
                 static::processSingleEntity($singleEntity);
             }
@@ -86,7 +93,7 @@ class CacheUtility
             // Adding to page cache
             $GLOBALS['TSFE']->addCacheTags($cacheTags);
             RegistryUtility::enable($table);
-            static::$addedCacheTags[] = $cacheTag;
+            static::$addedCacheTags = array_merge(static::$addedCacheTags, $cacheTags);
         }
     }
 
