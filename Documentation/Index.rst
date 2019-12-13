@@ -23,7 +23,7 @@ Fluid Page Cache
         on current page.
 
 	:Keywords:
-		TYPO3 CMS, Cache, Page Cache, Cache Magic
+		TYPO3 CMS, Cache, Page Cache, Cache Magic, Fluid, View
 
 	:Copyright:
 		2019-2020

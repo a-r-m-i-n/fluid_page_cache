@@ -38,7 +38,26 @@ Here you can find the full truth about how cHash is calculated: `CacheHashCalcul
 
 .. _CacheHashCalculator: https://github.com/TYPO3/TYPO3.CMS/blob/master/typo3/sysext/frontend/Classes/Page/CacheHashCalculator.php
 
+Basically the calculation works like that:
+
+1. Take all GET parameters
+2. Add the configured encryptionKey (as salt)
+3. Sort all values alphabetically by key
+4. Remove parameters to be excluded from chash (global TYPO3 configuration)
+5. Create final md5 hash from serialized parameters array
+
 This cHash is used as identifier. Each **page variation** get's its own identifier.
+
+
+Page variations
+~~~~~~~~~~~~~~~
+
+A page variation is the same page in TYPO3 tree, but displayed with different contents.
+
+Like the detail page of news: Which is only one page, but displays various different news entries.
+This is possible thanks to additional GET parameters, like `?tx_news_pi1[news]=123`.
+
+Those parameters are important to be used, when calculating the cHash.
 
 
 Example with news extension
@@ -49,7 +68,7 @@ Because of how Georg used the page cache in his news extension, I've had got the
 The following screenshots shows contents from database table **cf_cache_pages_tags**.
 
 .. image:: Images/cache_pages_tags.png
-   :alt: Your first DCE
+   :alt: Page cache tags in TYPO3
 
 In this example I've created two news entries and called them separately in frontend (so the page cache is created).
 
@@ -59,30 +78,63 @@ We see two different identifiers, but several tags assigned to them. Basically e
 - tx_news
 - tx_news_uid_0
 
-While pageId is provides by the TYPO3 core, the tx_news tags come from news itself. They are set in detailAction of the
-NewsController.
+While pageId is provides by the TYPO3 core, the tx_news tags come from news itself.
+They are set in detailAction of the NewsController.
 
 With these page cache tags set, you can easily clear single page variants,
 without affecting all other cached news' detail pages.
 
 
-The problem
------------
+The problems
+------------
 
-Hopefully you got an idea of how the page cache in TYPO3 works, and how the news extension utilize it.
-
-What news does is great, but it has some pitfalls:
-
-- You need to implement it on your own, for your extensions
+- News did a great job, for news itself. But you need to implement the cache behaviour on your own
 - News only set cache tags for news items itself (uid & pid), used children (e.g. sys_file_reference) are not creating
   an individual tag
 - Which may lead to cache issues for editors, when they edit a relation or a sys_file out of the scope of current news
   entry (e.g. in Filelist)
 
-The question is: How to identify cache-sensitive objects on current page variation?
+**The question is:**
+When you update an entity in backend, how to identify affected page variation,
+in after-save-hook to clear the page caches?
 
 
 The idea
 --------
 
-tbw;
+Instead of adding the cache tag for each entity manually in e.g. ``detailAction()`` of your extension,
+why not do it automatically?
+
+To achieve this, I need a place where I can create a list of entities, used on current page.
+This place is the **StandardVariableProvider** of Fluid, which is xclassed when fluid_page_cache is installed.
+
+There, I am able to fetch every ``{whatever.property}`` you put in your Fluid templates/partials/layouts and check if
+``whatever`` is an instance of ``TYPO3\CMS\Extbase\DomainObject\AbstractEntity``.
+
+Only those entities are registered for additional page cache tags, which are actually used in your Fluid template.
+If your entities contain child objects, they are only generating a tag, when they are get used.
+
+
+Benefits
+--------
+
+With this, you get create a **very precise tagging of page caches**, based on your view.
+
+Now, an after-save-hook will clear the cache of **only those pages, which are really affected**. It does not matter how
+the entity has been **reached into the view** (e.g. processors), it only matters that you've accessed it.
+
+It is important, that the StandardVariableProvider knows about the entity you want to cache.
+When you use view helper which provide own data (like ``f:cObject``), fluid_page_cache is unable to detect them automatically.
+
+For such cases a view helper and a utility class is provided, which allows you to set an page cache tag entry manually,
+respecting the fluid_page_cache configuration.
+
+
+The process
+-----------
+
+The following diagram shows how fluid_page_cache influences the rendering process of Fluid,
+to create new page cache tags.
+
+.. image:: Images/process.png
+   :alt: How fluid_page_cache influences the rendering process of Fluid
