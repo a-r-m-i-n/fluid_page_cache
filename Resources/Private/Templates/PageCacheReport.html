@@ -1,16 +1,24 @@
 {namespace core=TYPO3\CMS\Core\ViewHelpers}
-{namespace bra=T3\FluidPageCache\ViewHelpers}
+{namespace fpc=T3\FluidPageCache\ViewHelpers}
 
 <f:if condition="!{id}">
     <f:then>
         <em>Please select a page in page tree!</em>
     </f:then>
     <f:else>
-        <div class="pull-right"><f:be.pageInfo /></div>
+        <div class="pull-right">
+            <a href="javascript:location.reload()" class="btn btn-default"><i class="fa fa-refresh text-success"></i> Refresh</a>
+
+            <f:be.pageInfo />
+        </div>
+
         <h1>Fluid Page Cache Info
-            <f:if condition="{identifiers -> f:count()} == 0"><span class="badge">{identifiers -> f:count()}</span></f:if>
+            <f:if condition="{identifiers -> f:count()} > 0"><span class="badge" title="{identifiers -> f:count()} page variation(s) found">{identifiers -> f:count()}</span></f:if>
         </h1>
 
+        <p>
+
+        </p>
 
         <f:if condition="{identifiers -> f:count()} == 0">
             <f:then>
@@ -19,7 +27,7 @@
             <f:else>
                 <f:for each="{identifiers}" key="identifier" as="tags">
                     <fieldset style="margin-bottom: 3rem;">
-                        <legend>Page Variation "{identifier}"</legend>
+                        <legend>Page variation "{identifier}"</legend>
 
                         <table class="table">
                             <thead>
@@ -37,7 +45,7 @@
                                             <f:if condition="{tag.row}">
                                                 <f:then>
                                                     <a title="Edit this record"
-                                                       href="{bra:be.moduleLink(module:'record_edit', parameter:'edit[{tag.table}][{tag.uid}]=edit&returnUrl={bra:be.thisUrl(showHost:\'0\', urlencode:\'1\')}')}"
+                                                       href="{fpc:be.moduleLink(module:'record_edit', parameter:'edit[{tag.table}][{tag.uid}]=edit&returnUrl={fpc:be.thisUrl(showHost:\'0\', urlencode:\'1\')}')}"
                                                     >
                                                         <core:iconForRecord table="{tag.table}" row="{tag.row}" />
                                                         {tag.title}

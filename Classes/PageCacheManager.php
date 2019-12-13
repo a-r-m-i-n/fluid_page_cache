@@ -1,17 +1,20 @@
 <?php declare(strict_types=1);
-namespace T3\FluidPageCache\Utility;
+namespace T3\FluidPageCache;
 
+use T3\FluidPageCache\Utility\RegistryUtility;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-use TYPO3\CMS\Extbase\DomainObject\AbstractValueObject;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\LazyObjectStorage;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
-class CacheUtility
+/**
+ * The page cache manager
+ */
+class PageCacheManager
 {
     /**
      * @var DataMapper
@@ -55,12 +58,12 @@ class CacheUtility
     }
 
     /**
-     * @param AbstractEntity|AbstractValueObject|mixed $entity
+     * @param AbstractDomainObject|mixed $entity
      * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception
      */
     private static function processSingleEntity($entity)
     {
-        if ($entity instanceof AbstractEntity || $entity instanceof AbstractValueObject) {
+        if ($entity instanceof AbstractDomainObject) {
             $tableName = static::getDatabaseTableNameOfEntity($entity);
             static::registerCacheTag($tableName, $entity->getUid());
         }
@@ -104,7 +107,7 @@ class CacheUtility
      * @return string Database table name of given entity
      * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception
      */
-    protected static function getDatabaseTableNameOfEntity(AbstractDomainObject $entity): string
+    private static function getDatabaseTableNameOfEntity(AbstractDomainObject $entity): string
     {
         if (!static::$dataMapper) {
             $objectManager = GeneralUtility::makeInstance(ObjectManager::class);

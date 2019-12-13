@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace T3\FluidPageCache\ViewHelpers\Be;
 
-use T3\FluidPageCache\Compatibility;
+use T3\FluidPageCache\Utility\CompatibilityUtility;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
@@ -41,6 +41,6 @@ class ModuleLinkViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     ) {
         $parameters = GeneralUtility::explodeUrl2Array($arguments['parameter']);
-        return Compatibility::getModuleUrl($arguments['module'], $parameters);
+        return CompatibilityUtility::getModuleUrl($arguments['module'], $parameters);
     }
 }

@@ -1,12 +1,12 @@
-<?php
-namespace T3\FluidPageCache;
+<?php declare(strict_types=1);
+namespace T3\FluidPageCache\Utility;
 
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
-class Compatibility
+class CompatibilityUtility
 {
     /**
      * Checks if current TYPO3 version is 9.0.0 or greater (by default)

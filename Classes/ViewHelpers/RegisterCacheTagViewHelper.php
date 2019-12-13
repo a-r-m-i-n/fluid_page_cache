@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace T3\FluidPageCache\ViewHelpers;
 
-use T3\FluidPageCache\Utility\CacheUtility;
+use T3\FluidPageCache\PageCacheManager;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -15,7 +15,8 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * You can register the rendered content element in page cache, like this:
  *
- * <bra:registerCacheTag table="tt_content" uid="{element.uid}" />
+ * {namespace fpc=T3\FluidPageCache\ViewHelpers}
+ * <fpc:registerCacheTag table="tt_content" uid="{element.uid}" />
  *
  * The view helper has no output.
  */
@@ -30,6 +31,6 @@ class RegisterCacheTagViewHelper extends AbstractViewHelper
 
     public function render()
     {
-        CacheUtility::registerCacheTag((string) $this->arguments['table'], (int) $this->arguments['uid']);
+        PageCacheManager::registerCacheTag((string) $this->arguments['table'], (int) $this->arguments['uid']);
     }
 }

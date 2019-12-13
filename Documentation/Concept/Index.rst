@@ -34,16 +34,16 @@ You've probably already dealt with the cHash. It is used for two things:
 - prevent manipulating GET parameters (utilized by typoLink() method in ``\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer``)
 - identifying cache for current requested page
 
-Here you can find the full truth about how cHash is calculated: `CacheHashCalculator`_
+Here you can find how cHash is calculated: `CacheHashCalculator`_
 
 .. _CacheHashCalculator: https://github.com/TYPO3/TYPO3.CMS/blob/master/typo3/sysext/frontend/Classes/Page/CacheHashCalculator.php
 
-Basically the calculation works like that:
+**Basically the calculation works like that:**
 
-1. Take all GET parameters
-2. Add the configured encryptionKey (as salt)
+1. Collect all GET parameters
+2. Add the configured "encryptionKey" (as salt)
 3. Sort all values alphabetically by key
-4. Remove parameters to be excluded from chash (global TYPO3 configuration)
+4. Remove parameters to be excluded from cHash (global TYPO3 configuration)
 5. Create final md5 hash from serialized parameters array
 
 This cHash is used as identifier. Each **page variation** get's its own identifier.
@@ -63,7 +63,8 @@ Those parameters are important to be used, when calculating the cHash.
 Example with news extension
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Because of how Georg used the page cache in his news extension, I've had got the idea of fluid_page_cache.
+.. note::
+   Because of how Georg used the page cache in his news extension, I've had got the idea of fluid_page_cache.
 
 The following screenshots shows contents from database table **cf_cache_pages_tags**.
 
@@ -88,10 +89,10 @@ without affecting all other cached news' detail pages.
 The problems
 ------------
 
-- News did a great job, for news itself. But you need to implement the cache behaviour on your own
+- News did a great job, for news itself. But you need to implement the cache behaviour **on your own**, in your extensions
 - News only set cache tags for news items itself (uid & pid), used children (e.g. sys_file_reference) are not creating
   an individual tag
-- Which may lead to cache issues for editors, when they edit a relation or a sys_file out of the scope of current news
+- Which may lead to **cache issues** for editors, when they edit a relation or a sys_file out of the scope of current news
   entry (e.g. in Filelist)
 
 **The question is:**
@@ -106,10 +107,10 @@ Instead of adding the cache tag for each entity manually in e.g. ``detailAction(
 why not do it automatically?
 
 To achieve this, I need a place where I can create a list of entities, used on current page.
-This place is the **StandardVariableProvider** of Fluid, which is xclassed when fluid_page_cache is installed.
+This place is the **rendering process of Fluid** templates, in which I've registered a new **node interceptor**.
 
 There, I am able to fetch every ``{whatever.property}`` you put in your Fluid templates/partials/layouts and check if
-``whatever`` is an instance of ``TYPO3\CMS\Extbase\DomainObject\AbstractEntity``.
+``whatever`` is an instance of ``\TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject``.
 
 Only those entities are registered for additional page cache tags, which are actually used in your Fluid template.
 If your entities contain child objects, they are only generating a tag, when they are get used.
@@ -123,11 +124,10 @@ With this, you get create a **very precise tagging of page caches**, based on yo
 Now, an after-save-hook will clear the cache of **only those pages, which are really affected**. It does not matter how
 the entity has been **reached into the view** (e.g. processors), it only matters that you've accessed it.
 
-It is important, that the StandardVariableProvider knows about the entity you want to cache.
-When you use view helper which provide own data (like ``f:cObject``), fluid_page_cache is unable to detect them automatically.
+It is important, that the Fluid rendering context (variable container) knows about the entity you want to cache.
+When you use view helpers, which provide own data (like ``f:cObject``), fluid_page_cache is unable to detect them automatically.
 
-For such cases a view helper and a utility class is provided, which allows you to set an page cache tag entry manually,
-respecting the fluid_page_cache configuration.
+For such cases a view helper and a utility class is provided, which allows you to set a page cache tag entry manually.
 
 
 The process

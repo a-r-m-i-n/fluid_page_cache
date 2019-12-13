@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace T3\FluidPageCache\Fluid\ViewHelpers;
 
-use T3\FluidPageCache\Utility\CacheUtility;
+use T3\FluidPageCache\PageCacheManager;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -17,7 +17,7 @@ class InterceptorEnricherViewHelper extends AbstractViewHelper
     {
         $objectPath = trim($arguments['objectPath'], "'");
         $subject = $renderingContext->getVariableProvider()->getByPath($objectPath);
-        CacheUtility::registerEntity($subject);
+        PageCacheManager::registerEntity($subject);
         return $renderChildrenClosure();
     }
 }
