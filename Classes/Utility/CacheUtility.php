@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace T3\FluidPageCache\Utility;
 
+use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
@@ -69,8 +70,21 @@ class CacheUtility
     {
         $cacheTag = $table . '_' . $uid;
         if (!in_array($cacheTag, static::$addedCacheTags, true)) {
+            $cacheTags = [$cacheTag];
+            // Follow sys_file_references to related sys_file
+            if ($table === 'sys_file_reference') {
+                if (!static::$fileRepository) {
+                    $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+                    static::$fileRepository = $objectManager->get(FileRepository::class);
+                }
+                $reference = static::$fileRepository->findFileReferenceByUid($uid);
+                if ($reference) {
+                    $cacheTags[] = 'sys_file_' . $reference->getOriginalFile()->getUid();
+                }
+            }
+
             // Adding to page cache
-            $GLOBALS['TSFE']->addCacheTags([$cacheTag]);
+            $GLOBALS['TSFE']->addCacheTags($cacheTags);
             RegistryUtility::enable($table);
             static::$addedCacheTags[] = $cacheTag;
         }
