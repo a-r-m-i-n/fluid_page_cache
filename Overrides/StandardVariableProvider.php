@@ -9,7 +9,7 @@ namespace TYPO3Fluid\Fluid\Core\Variables;
 // /!\ CAUTION /!\
 //
 // This file has been copied from TYPO3Fluid\Fluid package
-// The only modification appears in line 145, where CacheUtility is utilized.
+// The only modification appears in line 142, where CacheUtility is utilized.
 //
 // /!\ CAUTION /!\
 
@@ -138,14 +138,10 @@ class StandardVariableProvider implements VariableProviderInterface
             if ($subject === null) {
                 break;
             }
-        }
-
         // --
-
         CacheUtility::registerEntity($subject);
-
         // --
-
+        }
         return $subject;
     }
 
