@@ -1,0 +1,63 @@
+{namespace core=TYPO3\CMS\Core\ViewHelpers}
+{namespace bra=T3\FluidPageCache\ViewHelpers}
+
+<f:if condition="!{id}">
+    <f:then>
+        <em>Please select a page in page tree!</em>
+    </f:then>
+    <f:else>
+        <div class="pull-right"><f:be.pageInfo /></div>
+        <h1>Auto Page Cache Info</h1>
+
+
+        <f:if condition="{identifiers -> f:count()} == 0">
+            <f:then>
+                <em>This page has not been cached yet.</em>
+            </f:then>
+            <f:else>
+                <f:for each="{identifiers}" key="identifier" as="tags">
+                    <fieldset style="margin-bottom: 3rem;">
+                        <legend>Page Cache Identifier: {identifier}</legend>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Identifier</th>
+                                    <th>Table</th>
+                                    <th>Uid</th>
+                                    <th>Record</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <f:for each="{tags}" as="tag">
+                                    <tr>
+                                        <td><code>{tag.tag}</code></td>
+                                        <td>{tag.table}</td>
+                                        <td>{tag.uid}</td>
+                                        <td>
+                                            <f:if condition="{tag.row}">
+                                                <f:then>
+                                                    <a title="Edit this record"
+                                                       href="{bra:be.moduleLink(module:'record_edit', parameter:'edit[{tag.table}][{tag.uid}]=edit&returnUrl={bra:be.thisUrl(showHost:\'0\', urlencode:\'1\')}')}"
+                                                    >
+                                                        <core:iconForRecord table="{tag.table}" row="{tag.row}" />
+                                                        {tag.title}
+                                                    </a>
+                                                </f:then>
+                                                <f:else>
+                                                    -
+                                                </f:else>
+                                            </f:if>
+                                        </td>
+                                    </tr>
+                                </f:for>
+                            </tbody>
+                        </table>
+
+
+                    </fieldset>
+                </f:for>
+            </f:else>
+        </f:if>
+    </f:else>
+</f:if>

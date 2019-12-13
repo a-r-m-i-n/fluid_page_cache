@@ -1,0 +1,48 @@
+<?php declare(strict_types=1);
+namespace T3\FluidPageCache\ViewHelpers\Be;
+
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+
+/**
+ * Returns the url of current page
+ *
+ * @see DCE Extension
+ */
+class ThisUrlViewHelper extends AbstractViewHelper
+{
+    /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('showHost', 'boolean', 'If TRUE the hostname will be included');
+        $this->registerArgument(
+            'showRequestedUri',
+            'boolean',
+            'If TRUE the requested uri will be included',
+            false,
+            true
+        );
+        $this->registerArgument('urlencode', 'boolean', 'If TRUE the whole result will be URI encoded');
+    }
+
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        $url = '';
+        if ($this->arguments['showHost']) {
+            $url .= ($_SERVER['HTTPS']) ? 'https://' : 'http://';
+            $url .= $_SERVER['SERVER_NAME'];
+        }
+        if ($this->arguments['showRequestedUri']) {
+            $url .= $_SERVER['REQUEST_URI'];
+        }
+        if ($this->arguments['urlencode']) {
+            $url = urlencode($url);
+        }
+        return $url;
+    }
+}
