@@ -3,6 +3,7 @@ namespace T3\FluidPageCache\Utility;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 
 class CacheUtility
@@ -71,11 +72,13 @@ class CacheUtility
      *
      * @param AbstractEntity $entity Extbase entity
      * @return string Database table name of given entity
+     * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception
      */
     protected static function getDatabaseTableNameOfEntity(AbstractEntity $entity): string
     {
         if (!static::$dataMapper) {
-            static::$dataMapper = GeneralUtility::makeInstance(DataMapper::class);
+            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+            static::$dataMapper = $objectManager->get(DataMapper::class);
         }
         return static::$dataMapper->getDataMap(get_class($entity))->getTableName();
     }
