@@ -9,11 +9,12 @@ namespace TYPO3Fluid\Fluid\Core\Variables;
 // /!\ CAUTION /!\
 //
 // This file has been copied from TYPO3Fluid\Fluid package
-// The only modification appears in line 142, where CacheUtility is utilized.
+// The only modification appears in lines 142-146, where CacheUtility is utilized.
 //
 // /!\ CAUTION /!\
 
 use T3\FluidPageCache\Utility\CacheUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * Class StandardVariableProvider
@@ -139,7 +140,9 @@ class StandardVariableProvider implements VariableProviderInterface
                 break;
             }
         // --
-        CacheUtility::registerEntity($subject);
+            if (ExtensionManagementUtility::isLoaded('fluid_page_cache')) {
+                CacheUtility::registerEntity($subject);
+            }
         // --
         }
         return $subject;
