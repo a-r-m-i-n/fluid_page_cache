@@ -107,7 +107,8 @@ Instead of adding the cache tag for each entity manually in e.g. ``detailAction(
 why not do it automatically?
 
 To achieve this, I need a place where I can create a list of entities, used on current page.
-This place is the **rendering process of Fluid** templates, in which I've registered a new **node interceptor**.
+This place is the **rendering process of Fluid** templates, in which I've registered a new **node interceptor**
+(thanks to Claus Due).
 
 There, I am able to fetch every ``{whatever.property}`` you put in your Fluid templates/partials/layouts and check if
 ``whatever`` is an instance of ``\TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject``.
@@ -128,6 +129,8 @@ It is important, that the Fluid rendering context (variable container) knows abo
 When you use view helpers, which provide own data (like ``f:cObject``), fluid_page_cache is unable to detect them automatically.
 
 For such cases a view helper and a utility class is provided, which allows you to set a page cache tag entry manually.
+
+fluid_page_cache works with **zero configuration**.
 
 
 The process

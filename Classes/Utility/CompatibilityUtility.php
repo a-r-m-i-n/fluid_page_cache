@@ -1,11 +1,21 @@
 <?php declare(strict_types=1);
 namespace T3\FluidPageCache\Utility;
 
+/*  | This extension is made with ❤ for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
+ *  |
+ *  | (c) 2019-2020 Armin Vieweg <armin@v.ieweg.de>
+ */
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
+/**
+ * Helping utility to provide compatibility for different TYPO3 major versions
+ *
+ * @see DCE Extension
+ */
 class CompatibilityUtility
 {
     /**
@@ -26,8 +36,6 @@ class CompatibilityUtility
      * @param string $moduleName Name of the module
      * @param array $urlParameters URL parameters that should be added as key value pairs
      * @return string Calculated URL
-     * @throws RouteNotFoundException
-     * @see DCE Extension
      */
     public static function getModuleUrl($moduleName, $urlParameters = []) : string
     {

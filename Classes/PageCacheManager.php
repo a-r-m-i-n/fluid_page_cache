@@ -1,6 +1,11 @@
 <?php declare(strict_types=1);
 namespace T3\FluidPageCache;
 
+/*  | This extension is made with ❤ for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
+ *  |
+ *  | (c) 2019-2020 Armin Vieweg <armin@v.ieweg.de>
+ */
 use T3\FluidPageCache\Utility\RegistryUtility;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -13,9 +18,13 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 /**
  * The page cache manager
+ * Used by InterceptorEnricherViewHelper to convert used entities to page cache tags.
  */
 class PageCacheManager
 {
+    /**
+     * All cache tags, created by fluid_page_cache got this prefix
+     */
     public const CACHE_TAG_PREFIX = 'fpc_';
 
     /**

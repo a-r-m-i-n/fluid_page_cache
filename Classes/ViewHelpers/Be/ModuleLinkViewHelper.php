@@ -1,6 +1,11 @@
 <?php declare(strict_types=1);
 namespace T3\FluidPageCache\ViewHelpers\Be;
 
+/*  | This extension is made with ❤ for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
+ *  |
+ *  | (c) 2019-2020 Armin Vieweg <armin@v.ieweg.de>
+ */
 use T3\FluidPageCache\Utility\CompatibilityUtility;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

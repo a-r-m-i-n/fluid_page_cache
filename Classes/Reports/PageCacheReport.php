@@ -1,6 +1,11 @@
 <?php declare(strict_types=1);
 namespace T3\FluidPageCache\Reports;
 
+/*  | This extension is made with ❤ for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
+ *  |
+ *  | (c) 2019-2020 Armin Vieweg <armin@v.ieweg.de>
+ */
 use T3\FluidPageCache\PageCacheManager;
 use TYPO3\CMS\Backend\Module\AbstractFunctionModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -8,6 +13,11 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
+/**
+ * Provides entry for Info module
+ *
+ * @TODO The AbstractFunctionModule this class is extending from will be removed in TYPO3 v10
+ */
 class PageCacheReport extends AbstractFunctionModule
 {
     /**
@@ -17,6 +27,7 @@ class PageCacheReport extends AbstractFunctionModule
 
     public function __construct()
     {
+        parent::__construct();
         $this->connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
     }
 
@@ -42,8 +53,6 @@ class PageCacheReport extends AbstractFunctionModule
         }
         return $view->render();
     }
-
-
 
     protected function getCacheIdentifiersByPageUid(int $pageUid): array
     {

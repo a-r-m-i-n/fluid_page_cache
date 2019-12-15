@@ -1,9 +1,18 @@
 <?php declare(strict_types=1);
 namespace T3\FluidPageCache\Utility;
 
+/*  | This extension is made with ❤ for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
+ *  |
+ *  | (c) 2019-2020 Armin Vieweg <armin@v.ieweg.de>
+ */
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+/**
+ * Helper class for sys_registry access
+ * Used to enable database tables to get cleared in DataHandlerHook.
+ */
 class RegistryUtility
 {
     /**
@@ -11,9 +20,11 @@ class RegistryUtility
      */
     private static $registry;
 
-
     /**
+     * Enables table to get cleared during cache clearing
+     *
      * @param string $table
+     * @return void
      */
     public static function enable(string $table): void
     {
@@ -26,6 +37,8 @@ class RegistryUtility
     }
 
     /**
+     * Checks if given table is enabled
+     *
      * @param string $table
      * @return bool
      */
@@ -33,6 +46,20 @@ class RegistryUtility
     {
         static::initializeRegistry();
         return in_array($table, static::getEnabledTables(), true);
+    }
+
+    /**
+     * Returns all enabled pages
+     *
+     * @return array
+     */
+    protected static function getEnabledTables(): array
+    {
+        $enabledTables = static::$registry->get('fluid_page_cache', 'enabledTables') ?? [];
+        if ($enabledTables) {
+            $enabledTables = GeneralUtility::trimExplode(',', $enabledTables);
+        }
+        return $enabledTables;
     }
 
     /**
@@ -47,17 +74,10 @@ class RegistryUtility
         static::$registry->remove('fluid_page_cache', 'enabledTables');
     }
 
-    protected static function getEnabledTables(): array
-    {
-        $enabledTables = static::$registry->get('fluid_page_cache', 'enabledTables') ?? [];
-        if ($enabledTables) {
-            $enabledTables = GeneralUtility::trimExplode(',', $enabledTables);
-        }
-        return $enabledTables;
-    }
-
-
-    protected static function initializeRegistry()
+    /**
+     * Used in public methods, to initialize the Registry (sys_registry)
+     */
+    protected static function initializeRegistry(): void
     {
         if (!static::$registry) {
             static::$registry = GeneralUtility::makeInstance(Registry::class);

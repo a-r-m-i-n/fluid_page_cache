@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Fluid Page Cache',
     'description' => 'Creates automatically tags for TYPO3\'s page cache, based on used variables in rendered Fluid templates on current page.',
