@@ -16,6 +16,8 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  */
 class PageCacheManager
 {
+    public const CACHE_TAG_PREFIX = 'fpc_';
+
     /**
      * @var DataMapper
      */
@@ -78,7 +80,7 @@ class PageCacheManager
      */
     public static function registerCacheTag(string $table, int $uid): void
     {
-        $cacheTag = $table . '_' . $uid;
+        $cacheTag = self::CACHE_TAG_PREFIX . $table . '_' . $uid;
         if (!in_array($cacheTag, static::$addedCacheTags, true)) {
             $cacheTags = [$cacheTag];
             // Follow sys_file_references to related sys_file
@@ -89,7 +91,7 @@ class PageCacheManager
                 }
                 $reference = static::$fileRepository->findFileReferenceByUid($uid);
                 if ($reference) {
-                    $cacheTags[] = 'sys_file_' . $reference->getOriginalFile()->getUid();
+                    $cacheTags[] = self::CACHE_TAG_PREFIX . 'sys_file_' . $reference->getOriginalFile()->getUid();
                 }
             }
 

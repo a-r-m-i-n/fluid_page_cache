@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace T3\FluidPageCache\Reports;
 
+use T3\FluidPageCache\PageCacheManager;
 use TYPO3\CMS\Backend\Module\AbstractFunctionModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -34,6 +35,7 @@ class PageCacheReport extends AbstractFunctionModule
 
         $id = (int) (GeneralUtility::_GET('id') ?? 0);
         $view->assign('id', $id);
+        $view->assign('pageRow', BackendUtility::getRecord('pages', $id));
 
         if ($id) {
             $view->assign('identifiers', $this->getCacheIdentifiersByPageUid($id));
@@ -67,12 +69,12 @@ class PageCacheReport extends AbstractFunctionModule
             foreach ($tagRows as $tagRow) {
                 $table = $uid = null;
                 $tag = $tagRow['tag'];
-                if (preg_match('/^(.*)_(\d*)$/i', $tag, $matches)) {
+                if (preg_match('/^' . PageCacheManager::CACHE_TAG_PREFIX . '(.*)_(\d*)$/i', $tag, $matches)) {
                     $table = $matches[1];
-                    if ($table === 'pageId') {
-                        $table = 'pages';
-                    }
                     $uid = (int) $matches[2];
+                } elseif (strpos($tag, 'pageId_') === 0) {
+                    $table = 'pages';
+                    $uid = (int) substr($tag, strlen('pageId_'));
                 }
                 $tags[] = [
                     'tag' => $tag,

@@ -17,7 +17,7 @@ class DataHandlerHook
         // When record gets updated
         if (isset($params['table']) && isset($params['uid'])) {
             if (RegistryUtility::isEnabled($params['table'])) {
-                $cacheTag = $params['table'] . '_' . $params['uid'];
+                $cacheTag = PageCacheManager::CACHE_TAG_PREFIX . $params['table'] . '_' . $params['uid'];
 
                 $cacheTagsToFlush = [$cacheTag];
                 /** @var CacheManager $cacheManager */
