@@ -27,7 +27,6 @@ class PageCacheReport extends AbstractFunctionModule
 
     public function __construct()
     {
-        parent::__construct();
         $this->connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
     }
 
