@@ -74,7 +74,7 @@ class PageCacheManager
      */
     private static function processSingleEntity($entity)
     {
-        if ($entity instanceof AbstractDomainObject) {
+        if (($entity instanceof AbstractDomainObject) && $entity->getUid()) {
             $tableName = static::getDatabaseTableNameOfEntity($entity);
             static::registerCacheTag($tableName, $entity->getUid());
         }
