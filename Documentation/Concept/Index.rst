@@ -140,4 +140,5 @@ The following diagram shows how fluid_page_cache influences the rendering proces
 to create new page cache tags.
 
 .. image:: Images/process.png
+   :scale: 50%
    :alt: How fluid_page_cache influences the rendering process of Fluid

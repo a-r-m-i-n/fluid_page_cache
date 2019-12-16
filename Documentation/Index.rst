@@ -51,6 +51,7 @@ Fluid Page Cache
         :maxdepth: 2
         :titlesonly:
 
+        Welcome/Index
         Installation/Index
         Concept/Index
 
