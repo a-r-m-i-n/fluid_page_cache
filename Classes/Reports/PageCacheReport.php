@@ -35,6 +35,7 @@ class PageCacheReport extends AbstractFunctionModule
      * Main method of modfuncreport
      *
      * @return string Module content
+     * @throws \Exception
      */
     public function main()
     {
@@ -44,6 +45,7 @@ class PageCacheReport extends AbstractFunctionModule
             GeneralUtility::getFileAbsFileName('EXT:fluid_page_cache/Resources/Private/Templates/PageCacheReport.html')
         );
 
+        $view->assign('now', new \DateTime());
         $id = (int) (GeneralUtility::_GET('id') ?? 0);
         $view->assign('id', $id);
         $view->assign('pageRow', BackendUtility::getRecord('pages', $id));
@@ -66,6 +68,14 @@ class PageCacheReport extends AbstractFunctionModule
 
         $identifiers = [];
         foreach ($cacheTagRows as $cacheTagRow) {
+            $queryBuilder = $this->connectionPool->getQueryBuilderForTable('cf_cache_pages');
+            $cacheRow = $queryBuilder
+                ->select('*')
+                ->from('cf_cache_pages')
+                ->where('identifier = "' . $cacheTagRow['identifier'] . '"')
+                ->execute()
+                ->fetch(\PDO::FETCH_ASSOC);
+
             $queryBuilder = $this->connectionPool->getQueryBuilderForTable('cf_cache_pages_tags');
             $tagRows = $queryBuilder
                 ->select('*')
@@ -93,7 +103,7 @@ class PageCacheReport extends AbstractFunctionModule
                     'title' => ($table && $uid) ? $this->resolveRecordTitle($table, $uid) : null
                 ];
             }
-            $identifiers[$cacheTagRow['identifier']] = $tags;
+            $identifiers[$cacheTagRow['identifier']] = ['tags' => $tags, 'expires' => $cacheRow['expires']];
         }
         return $identifiers;
     }
