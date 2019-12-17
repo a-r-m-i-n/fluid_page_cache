@@ -11,8 +11,7 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * This viewhelper analyses during template rendering process, the accessed entities,
- * in variable provider.
+ * This view helper analyses during template rendering process, the accessed entities, in variable provider.
  *
  * The node interceptor shipped with fluid_page_cache, wraps this internal view helper around every ObjectAccessor node.
  *
