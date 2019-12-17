@@ -44,12 +44,24 @@ class PageCacheReport extends AbstractFunctionModule
             GeneralUtility::getFileAbsFileName('EXT:fluid_page_cache/Resources/Private/Templates/PageCacheReport.html')
         );
 
+        $cacheExistsInDatabase = false;
+        foreach ($this->connectionPool->getConnectionNames() as $connectionName) {
+            $connection = $this->connectionPool->getConnectionByName($connectionName);
+            if (in_array('cf_cache_pages', $connection->getSchemaManager()->listTableNames(), true) &&
+                in_array('cf_cache_pages_tags', $connection->getSchemaManager()->listTableNames(), true)
+            ) {
+                $cacheExistsInDatabase = true;
+                break;
+            }
+        }
+
         $view->assign('now', new \DateTime());
         $id = (int) (GeneralUtility::_GET('id') ?? 0);
         $view->assign('id', $id);
         $view->assign('pageRow', BackendUtility::getRecord('pages', $id));
+        $view->assign('cacheExistsInDatabase', $cacheExistsInDatabase);
 
-        if ($id) {
+        if ($id && $cacheExistsInDatabase) {
             $view->assign('identifiers', $this->getCacheIdentifiersByPageUid($id));
         }
         return $view->render();
