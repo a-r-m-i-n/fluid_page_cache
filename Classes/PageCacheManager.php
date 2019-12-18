@@ -78,6 +78,9 @@ class PageCacheManager
      */
     public static function registerCacheTag(string $table, int $uid): void
     {
+        if (!isset($GLOBALS['TSFE']) || TYPO3_MODE !== 'FE') {
+            return;
+        }
         $cacheTag = self::CACHE_TAG_PREFIX . $table . '_' . $uid;
         if (!in_array($cacheTag, static::$addedCacheTags, true)) {
             $cacheTags = [$cacheTag];
