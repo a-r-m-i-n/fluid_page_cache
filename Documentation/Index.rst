@@ -52,6 +52,10 @@ Fluid Page Cache
         :titlesonly:
 
         Welcome/Index
-        Installation/Index
         Concept/Index
+        Installation/Index
+        Usage/Index
+        Support/Index
 
+.. note::
+   This extension has been supported by `Brandung <https://www.agentur-brandung.de/>`_.

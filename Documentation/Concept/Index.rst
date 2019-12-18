@@ -8,7 +8,7 @@ Concept
 =======
 
 Before I talk about the concept of **fluid_page_cache** I would like to explain the functionality of the page cache
-in TYPO3 CMS.
+in TYPO3 CMS in general.
 
 
 Page Cache in TYPO3
@@ -52,9 +52,9 @@ This cHash is used as identifier. Each **page variation** get's its own identifi
 Page variations
 ~~~~~~~~~~~~~~~
 
-A page variation is the same page in TYPO3 tree, but displayed with different contents.
+A page variation is the same page in TYPO3 page tree, but displayed with different contents.
 
-Like the detail page of news: Which is only one page, but displays various different news entries.
+For example, the detail page of the news extension: Which is only one page, but displays various different news entries.
 This is possible thanks to additional GET parameters, like `?tx_news_pi1[news]=123`.
 
 Those parameters are important to be used, when calculating the cHash.
@@ -64,7 +64,7 @@ Example with news extension
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
-   Because of how Georg used the page cache in his news extension, I've had got the idea of fluid_page_cache.
+   Because of how Georg used the page cache in his news extension, I've had got the idea of this extension.
 
 The following screenshots shows contents from database table **cf_cache_pages_tags**.
 
@@ -136,9 +136,12 @@ fluid_page_cache works with **zero configuration**.
 The process
 -----------
 
-The following diagram shows how fluid_page_cache influences the rendering process of Fluid,
-to create new page cache tags.
+The following diagram shows how fluid_page_cache creates a new bridge between Fluid templating engine and
+TYPO3's FrontendController, which utilizes the page cache in first instance.
 
 .. image:: Images/process.png
    :scale: 50%
-   :alt: How fluid_page_cache influences the rendering process of Fluid
+   :alt: Diagram of how fluid_page_cache creates a new bridge between Fluid and TYPO3's FrontendController
+
+
+Interested? Check out the next chapter "Installation".
