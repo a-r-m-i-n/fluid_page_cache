@@ -55,7 +55,7 @@ class PageCacheInterceptor implements InterceptorInterface
             }
             return $wrapperNode;
         }
-        return $node;
+        return $escapingNode ?? $node;
     }
 
     /**
