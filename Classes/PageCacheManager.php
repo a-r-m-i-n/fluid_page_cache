@@ -46,26 +46,15 @@ class PageCacheManager
      * Detect table name and uid of given Extbase entity, and register cache tag for entity to current page.
      * This method only works in Frontend context and when $GLOBALS['TSFE'] is available.
      *
-     * @param AbstractEntity|mixed $entity
+     * @param AbstractDomainObject|mixed $entity
      * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception
      */
     public static function registerEntity($entity)
     {
-        if (!$entity || !isset($GLOBALS['TSFE']) || TYPO3_MODE !== 'FE') {
+        if (!$entity || !isset($GLOBALS['TSFE']) || TYPO3_MODE !== 'FE' || is_iterable($entity)) {
             return;
         }
-        if (is_iterable($entity)) {
-            if (($entity instanceof QueryResultInterface) ||
-                ($entity instanceof LazyObjectStorage && !$entity->isInitialized())
-            ) {
-                return;
-            }
-            foreach ($entity as $singleEntity) {
-                static::processSingleEntity($singleEntity);
-            }
-        } else {
-            static::processSingleEntity($entity);
-        }
+        static::processSingleEntity($entity);
     }
 
     /**
