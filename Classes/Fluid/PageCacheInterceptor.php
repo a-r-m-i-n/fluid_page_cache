@@ -9,6 +9,7 @@ namespace T3\FluidPageCache\Fluid;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3Fluid\Fluid\Core\Parser\InterceptorInterface;
 use TYPO3Fluid\Fluid\Core\Parser\ParsingState;
+use TYPO3Fluid\Fluid\Core\Parser\SyntaxTree\EscapingNode;
 use TYPO3Fluid\Fluid\Core\Parser\SyntaxTree\NodeInterface;
 use TYPO3Fluid\Fluid\Core\Parser\SyntaxTree\ObjectAccessorNode;
 use TYPO3Fluid\Fluid\Core\Parser\SyntaxTree\ViewHelperNode;
@@ -34,6 +35,12 @@ class PageCacheInterceptor implements InterceptorInterface
         $context = new RenderingContext($view);
         $context->getViewHelperResolver()->addNamespace('fluidPageCache', 'T3\\FluidPageCache\\Fluid\\ViewHelpers');
 
+        $escapingNode = null;
+        if ($node instanceof EscapingNode) {
+            $escapingNode = $node;
+            $node = $node->getNode();
+        }
+
         if ($node instanceof ObjectAccessorNode) {
             $truncatedObjectPath = strpos($node->getObjectPath(), '.') !== false
                 ? substr($node->getObjectPath(), 0, strrpos($node->getObjectPath() ,'.'))
@@ -43,6 +50,9 @@ class PageCacheInterceptor implements InterceptorInterface
                 'objectPath' => "'" . $truncatedObjectPath . "'"
             ], $parsingState);
             $wrapperNode->addChildNode($node);
+            if ($escapingNode) {
+                return new EscapingNode($wrapperNode);
+            }
             return $wrapperNode;
         }
         return $node;
