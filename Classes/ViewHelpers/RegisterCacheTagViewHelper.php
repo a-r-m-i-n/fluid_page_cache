@@ -21,7 +21,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  * You can register the rendered content element in page cache, like this:
  *
  * {namespace fpc=T3\FluidPageCache\ViewHelpers}
- * <fpc:registerCacheTag table="tt_content" uid="{element.uid}" />
+ * <fpc:registerCacheTag table="tt_content" uid="{element.uid}" pid="{element.pid}" />
  *
  * The view helper has no output.
  */
@@ -32,10 +32,15 @@ class RegisterCacheTagViewHelper extends AbstractViewHelper
         parent::initializeArguments();
         $this->registerArgument('table', 'string', 'Tablename of record to create page cache tag for.', true);
         $this->registerArgument('uid', 'int', 'UID of record to create page cache tag for.', true);
+        $this->registerArgument('pid', 'int', 'PID of record to create page cache tag for.', true);
     }
 
     public function render()
     {
-        PageCacheManager::registerCacheTag((string) $this->arguments['table'], (int) $this->arguments['uid']);
+        PageCacheManager::registerCacheTag(
+            (string) $this->arguments['table'],
+            (int) $this->arguments['uid'],
+            (int) $this->arguments['pid']
+        );
     }
 }

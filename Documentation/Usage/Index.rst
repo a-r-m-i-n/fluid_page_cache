@@ -31,6 +31,27 @@ The main functionality of fluid_page_cache is not affected. It supports all cach
 compatible with.
 
 
+Handling new records
+--------------------
+
+fluid_page_cache works with zero configuration, but also adds a new option to pages cache options:
+
+.. image:: Images/page_cache_settings.png
+   :scale: 50%
+   :alt: Extended page cache settings
+
+When this option is enable, Fluid Page Cache will create **an additional cache tag** for the records' PID
+(e.g. sys_folder).
+
+This is especially useful, when the page cache of all page variants of this page should get cleared,
+for example when you **create a new record in a sys_folder**.
+
+Therefore this option makes sense to enable for pages, which primarily contains
+**lists of records** (with/without paginations).
+
+If you not activate this option on such pages, a new record in sys_folder will have **no effect to page cache** at all.
+
+
 Register cache tags manually
 ----------------------------
 

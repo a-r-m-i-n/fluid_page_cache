@@ -28,6 +28,6 @@ Because **all actual used entities** have a **corresponding cache tag** now, you
 those cache entries, without affecting other pages. fluid_page_cache ships an after-save-hook, which does this for you.
 
 .. hint::
-   With **fluid_page_cache** installed all your page cache problems are a thing of the past.
+   With **fluid_page_cache** installed almost all your page cache problems are a thing of the past.
 
 In next chapter, the concept of fluid_page_cache is explained in detail.

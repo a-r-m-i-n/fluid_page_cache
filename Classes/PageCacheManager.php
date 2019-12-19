@@ -58,7 +58,7 @@ class PageCacheManager
             $entity->getUid()
         ) {
             $tableName = static::getDatabaseTableNameOfEntity($entity);
-            static::registerCacheTag($tableName, $entity->getUid());
+            static::registerCacheTag($tableName, $entity->getUid(), $entity->getPid());
         }
     }
 
@@ -67,16 +67,25 @@ class PageCacheManager
      *
      * @param string $table
      * @param int $uid
+     * @param int $pid only applies when $GLOBALS['TSFE']->page['tx_fluidpagecache_pid_cache_tag'] is set
      * @api
      */
-    public static function registerCacheTag(string $table, int $uid): void
+    public static function registerCacheTag(string $table, int $uid, int $pid = 0): void
     {
         if (!isset($GLOBALS['TSFE']) || TYPO3_MODE !== 'FE') {
             return;
         }
-        $cacheTag = self::CACHE_TAG_PREFIX . $table . '_' . $uid;
-        if (!in_array($cacheTag, static::$addedCacheTags, true)) {
-            $cacheTags = [$cacheTag];
+        $cacheTagUid = self::CACHE_TAG_PREFIX . $table . '_' . $uid;
+        if (!in_array($cacheTagUid, static::$addedCacheTags, true)) {
+            $cacheTags = [$cacheTagUid];
+
+            $cacheTagPid = self::CACHE_TAG_PREFIX . 'pid_' . $pid;
+            if ($GLOBALS['TSFE']->page['tx_fluidpagecache_pid_cache_tag'] &&
+                !in_array($cacheTagPid, static::$addedCacheTags, true)
+            ) {
+                $cacheTags[] = $cacheTagPid;
+            }
+
             // Follow sys_file_references to related sys_file
             if ($table === 'sys_file_reference') {
                 if (!static::$fileRepository) {

@@ -102,6 +102,10 @@ class PageCacheReport extends AbstractFunctionModule
                 if (preg_match('/^' . PageCacheManager::CACHE_TAG_PREFIX . '(.*)_(\d*)$/i', $tag, $matches)) {
                     $table = $matches[1];
                     $uid = (int) $matches[2];
+
+                    if ($table === 'pid') {
+                        $table = 'pages';
+                    }
                 } elseif (strpos($tag, 'pageId_') === 0) {
                     $table = 'pages';
                     $uid = (int) substr($tag, strlen('pageId_'));
