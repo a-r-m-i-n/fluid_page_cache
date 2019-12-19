@@ -26,6 +26,6 @@ Contribute
 ----------
 
 If you are a developer and you want to submit improvements as code, you can fork
-https://bitbucket.org/t--3/fluid_page_cache and make a pull request to DCE's master branch.
+https://bitbucket.org/t--3/fluid_page_cache and make a pull request to fluid_page_cache's master branch.
 
 Thanks!

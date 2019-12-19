@@ -43,7 +43,7 @@ class PageCacheInterceptor implements InterceptorInterface
 
         if ($node instanceof ObjectAccessorNode) {
             $truncatedObjectPath = strpos($node->getObjectPath(), '.') !== false
-                ? substr($node->getObjectPath(), 0, strrpos($node->getObjectPath() ,'.'))
+                ? substr($node->getObjectPath(), 0, strrpos($node->getObjectPath(), '.'))
                 : $node->getObjectPath();
 
             $wrapperNode = new ViewHelperNode($context, 'fluidPageCache', 'interceptorEnricher', [

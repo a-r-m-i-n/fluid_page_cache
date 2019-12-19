@@ -10,15 +10,14 @@ use T3\FluidPageCache\Utility\RegistryUtility;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject;
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Persistence\Generic\LazyObjectStorage;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
-use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 /**
  * The page cache manager
- * Used by InterceptorEnricherViewHelper to convert used entities to page cache tags.
+ * Creates cache tags for Extbase entities on current page (FE) in TYPO3's page cache.
+ *
+ * You can utilized the public static methods of this class, to register own cache tags, manually.
  */
 class PageCacheManager
 {
@@ -48,22 +47,16 @@ class PageCacheManager
      *
      * @param AbstractDomainObject|mixed $entity
      * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception
+     * @api
      */
     public static function registerEntity($entity)
     {
-        if (!$entity || !isset($GLOBALS['TSFE']) || TYPO3_MODE !== 'FE' || is_iterable($entity)) {
-            return;
-        }
-        static::processSingleEntity($entity);
-    }
-
-    /**
-     * @param AbstractDomainObject|mixed $entity
-     * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception
-     */
-    private static function processSingleEntity($entity)
-    {
-        if (($entity instanceof AbstractDomainObject) && $entity->getUid()) {
+        if (isset($GLOBALS['TSFE']) &&
+            TYPO3_MODE === 'FE' &&
+            $entity &&
+            $entity instanceof AbstractDomainObject &&
+            $entity->getUid()
+        ) {
             $tableName = static::getDatabaseTableNameOfEntity($entity);
             static::registerCacheTag($tableName, $entity->getUid());
         }
@@ -74,7 +67,7 @@ class PageCacheManager
      *
      * @param string $table
      * @param int $uid
-     * @return void
+     * @api
      */
     public static function registerCacheTag(string $table, int $uid): void
     {

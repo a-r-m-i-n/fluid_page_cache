@@ -55,12 +55,12 @@ To be still able to provide cache tags here, fluid_page_cache ships a view helpe
     <fpc:registerCacheTag table="tt_content" uid="{element.uid}" />
 
 
-Utility
-~~~~~~~
+PageCacheManager class
+~~~~~~~~~~~~~~~~~~~~~~
 
 The central class ``\T3\FluidPageCache\PageCacheManager`` is entry point for all parts of this extension.
 
-You can call the static method **registerCacheTag** form everywhere you want.
+You can call the static method **registerCacheTag** from everywhere you want.
 
 .. code-block:: php
 
@@ -69,7 +69,7 @@ You can call the static method **registerCacheTag** form everywhere you want.
 
 Keep in mind, that fluid_page_cache only apply:
 
-- when ``TYPO3_MODE`` constant is **FE**
+- when ``TYPO3_MODE`` constant is ``FE``
 - ``$GLOBALS['TSFE']`` is set
 
 
@@ -81,11 +81,10 @@ If you want to register an Extbase entity manually, you can use the static **reg
     PageCacheManager::registerEntity($entity);
 
 
-``$entity`` must:
+``$entity`` must be:
 
-- be an instance of ``\TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject``
-- be persisted (and have an uid available)
-- **not** be an iterable (array, QueryResult, ObjectStorage, ...)
+- an instance of ``\TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject``
+- persisted (and have an uid available)
 
 
 All cache tags made with fluid_page_cache got this syntax:
