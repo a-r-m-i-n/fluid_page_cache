@@ -120,7 +120,7 @@ If your entities contain child objects, they are only generating a tag, when the
 Benefits
 --------
 
-With this, you get create a **very precise tagging of page caches**, based on your view.
+With this, you get a **very precise tagging of page caches**, based on your view.
 
 Now, an after-save-hook will clear the cache of **only those pages, which are really affected**. It does not matter how
 the entity has been **reached into the view** (e.g. processors), it only matters that you've accessed it.
