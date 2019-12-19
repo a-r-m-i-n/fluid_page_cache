@@ -13,7 +13,8 @@
             <f:be.pageInfo />
         </div>
 
-        <h1>Fluid Page Cache Info
+        <h1><img src="{f:uri.resource(path:'Icons/ext_icon_32.png', extensionName:'FluidPageCache')}" alt="Fluid Page Cache Info Extension Icon">
+            Fluid Page Cache Info
             <f:if condition="{identifiers -> f:count()} > 0"><span class="badge badge-success" title="{identifiers -> f:count()} page variation(s) found">{identifiers -> f:count()}</span></f:if>
         </h1>
 
