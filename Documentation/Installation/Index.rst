@@ -14,7 +14,7 @@ Requirements
 ------------
 
 - PHP 7.2+
-- TYPO3 8.7 LTS or 9.5 LTS
+- TYPO3 8.7 LTS, 9.5 LTS or 10.4 LTS
 
 
 With Composer

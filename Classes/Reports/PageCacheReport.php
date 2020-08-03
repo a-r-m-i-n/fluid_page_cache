@@ -6,8 +6,8 @@ namespace T3\FluidPageCache\Reports;
  *  |
  *  | (c) 2019-2020 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\FluidPageCache\Compatibility;
 use T3\FluidPageCache\PageCacheManager;
-use TYPO3\CMS\Backend\Module\AbstractFunctionModule;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -15,10 +15,8 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Provides entry for Info module
- *
- * @TODO The AbstractFunctionModule this class is extending from will be removed in TYPO3 v10
  */
-class PageCacheReport extends AbstractFunctionModule
+class PageCacheReport
 {
     /**
      * @var ConnectionPool
@@ -47,8 +45,8 @@ class PageCacheReport extends AbstractFunctionModule
         $cacheExistsInDatabase = false;
         foreach ($this->connectionPool->getConnectionNames() as $connectionName) {
             $connection = $this->connectionPool->getConnectionByName($connectionName);
-            if (in_array('cf_cache_pages', $connection->getSchemaManager()->listTableNames(), true) &&
-                in_array('cf_cache_pages_tags', $connection->getSchemaManager()->listTableNames(), true)
+            if (in_array(Compatibility::getTableNameCachePages(), $connection->getSchemaManager()->listTableNames(), true) &&
+                in_array(Compatibility::getTableNameCachePagesTags(), $connection->getSchemaManager()->listTableNames(), true)
             ) {
                 $cacheExistsInDatabase = true;
                 break;
@@ -69,28 +67,28 @@ class PageCacheReport extends AbstractFunctionModule
 
     protected function getCacheIdentifiersByPageUid(int $pageUid): array
     {
-        $queryBuilder = $this->connectionPool->getQueryBuilderForTable('cf_cache_pages_tags');
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable(Compatibility::getTableNameCachePagesTags());
         $cacheTagRows = $queryBuilder
             ->select('*')
-            ->from('cf_cache_pages_tags')
+            ->from(Compatibility::getTableNameCachePagesTags())
             ->where('tag = "pageId_' . $pageUid . '"')
             ->execute()
             ->fetchAll(\PDO::FETCH_ASSOC) ?? [];
 
         $identifiers = [];
         foreach ($cacheTagRows as $cacheTagRow) {
-            $queryBuilder = $this->connectionPool->getQueryBuilderForTable('cf_cache_pages');
+            $queryBuilder = $this->connectionPool->getQueryBuilderForTable(Compatibility::getTableNameCachePages());
             $cacheRow = $queryBuilder
                 ->select('*')
-                ->from('cf_cache_pages')
+                ->from(Compatibility::getTableNameCachePages())
                 ->where('identifier = "' . $cacheTagRow['identifier'] . '"')
                 ->execute()
                 ->fetch(\PDO::FETCH_ASSOC);
 
-            $queryBuilder = $this->connectionPool->getQueryBuilderForTable('cf_cache_pages_tags');
+            $queryBuilder = $this->connectionPool->getQueryBuilderForTable(Compatibility::getTableNameCachePagesTags());
             $tagRows = $queryBuilder
                 ->select('*')
-                ->from('cf_cache_pages_tags')
+                ->from(Compatibility::getTableNameCachePagesTags())
                 ->where('identifier = "' . $cacheTagRow['identifier'] . '"')
                 ->execute()
                 ->fetchAll(\PDO::FETCH_ASSOC);
