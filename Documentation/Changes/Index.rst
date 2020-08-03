@@ -7,6 +7,14 @@
 Changes
 =======
 
+1.1.0
+-----
+
+- [FEATURE] Add TYPO3 v10 compatibility
+- [DEVOPS] Add DDEV environment
+- [DEVOPS] Remove Vagrantfile
+
+
 1.0.0
 -----
 
