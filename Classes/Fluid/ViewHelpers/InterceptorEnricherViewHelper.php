@@ -4,7 +4,7 @@ namespace T3\FluidPageCache\Fluid\ViewHelpers;
 /*  | This extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2019-2020 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2019-2022 Armin Vieweg <info@v.ieweg.de>
  */
 use T3\FluidPageCache\PageCacheManager;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;

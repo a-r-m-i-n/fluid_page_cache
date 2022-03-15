@@ -3,7 +3,7 @@
 /*  | This extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2019-2020 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2019-2022 Armin Vieweg <info@v.ieweg.de>
  */
 
 if (!defined('TYPO3_MODE')) {
