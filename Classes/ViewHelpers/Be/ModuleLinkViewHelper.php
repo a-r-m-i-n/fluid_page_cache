@@ -6,8 +6,8 @@ namespace T3\FluidPageCache\ViewHelpers\Be;
  *  |
  *  | (c) 2019-2020 Armin Vieweg <armin@v.ieweg.de>
  */
-use T3\FluidPageCache\Utility\CompatibilityUtility;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -46,6 +46,24 @@ class ModuleLinkViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     ) {
         $parameters = GeneralUtility::explodeUrl2Array($arguments['parameter']);
-        return CompatibilityUtility::getModuleUrl($arguments['module'], $parameters);
+        return static::getModuleUrl($arguments['module'], $parameters);
+    }
+
+    /**
+     * Returns the URL to a given module
+     *
+     * @param string $moduleName Name of the module
+     * @param array $urlParameters URL parameters that should be added as key value pairs
+     * @return string Calculated URL
+     */
+    protected static function getModuleUrl($moduleName, $urlParameters = []) : string
+    {
+        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+        try {
+            $uri = $uriBuilder->buildUriFromRoute($moduleName, $urlParameters);
+        } catch (RouteNotFoundException $e) {
+            $uri = $uriBuilder->buildUriFromRoutePath($moduleName, $urlParameters);
+        }
+        return (string) $uri;
     }
 }

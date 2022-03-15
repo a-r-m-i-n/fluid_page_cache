@@ -8,7 +8,6 @@ namespace T3\FluidPageCache\Reports;
  */
 use T3\FluidPageCache\Cache\Backend\CustomRedisBackend;
 use T3\FluidPageCache\Cache\Backend\CustomSimpleFileBackend;
-use T3\FluidPageCache\Compatibility;
 use T3\FluidPageCache\PageCacheManager;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Cache\Backend\AbstractBackend;
@@ -105,28 +104,28 @@ class PageCacheReport
 
     protected function listTypo3DatabaseBackendEntries(): array
     {
-        $queryBuilder = $this->connectionPool->getQueryBuilderForTable(Compatibility::getTableNameCachePagesTags());
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable('cache_pages_tags');
         $cacheTagRows = $queryBuilder
             ->select('*')
-            ->from(Compatibility::getTableNameCachePagesTags())
+            ->from('cache_pages_tags')
             ->where('tag = "pageId_' . $this->id . '"')
             ->execute()
             ->fetchAll(\PDO::FETCH_ASSOC) ?? [];
 
         $identifiers = [];
         foreach ($cacheTagRows as $cacheTagRow) {
-            $queryBuilder = $this->connectionPool->getQueryBuilderForTable(Compatibility::getTableNameCachePages());
+            $queryBuilder = $this->connectionPool->getQueryBuilderForTable('cache_pages');
             $cacheRow = $queryBuilder
                 ->select('*')
-                ->from(Compatibility::getTableNameCachePages())
+                ->from('cache_pages')
                 ->where('identifier = "' . $cacheTagRow['identifier'] . '"')
                 ->execute()
                 ->fetch(\PDO::FETCH_ASSOC);
 
-            $queryBuilder = $this->connectionPool->getQueryBuilderForTable(Compatibility::getTableNameCachePagesTags());
+            $queryBuilder = $this->connectionPool->getQueryBuilderForTable('cache_pages_tags');
             $tagRows = $queryBuilder
                 ->select('*')
-                ->from(Compatibility::getTableNameCachePagesTags())
+                ->from('cache_pages_tags')
                 ->where('identifier = "' . $cacheTagRow['identifier'] . '"')
                 ->execute()
                 ->fetchAll(\PDO::FETCH_ASSOC);
