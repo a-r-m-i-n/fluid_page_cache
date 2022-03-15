@@ -7,6 +7,7 @@
     </f:then>
     <f:else>
         <div class="pull-right">
+            <small style="margin-right: 1em;" title="Used cache backend for pages"><b>{cacheBackendName}</b></small>
             <small style="margin-right: 1em;">Now: <f:format.date format="Y-m-d H:i:s">{now}</f:format.date></small>
             <a href="javascript:location.reload()" class="btn btn-default btn-sm"><i class="fa fa-refresh text-success"></i> Refresh</a>
 
@@ -15,10 +16,10 @@
 
         <h1><img src="{f:uri.resource(path:'Icons/ext_icon_32.png', extensionName:'FluidPageCache')}" alt="Fluid Page Cache Info Extension Icon">
             Fluid Page Cache Info
-            <f:if condition="{identifiers -> f:count()} > 0"><span class="badge badge-success" title="{identifiers -> f:count()} page variation(s) found">{identifiers -> f:count()}</span></f:if>
+            <f:if condition="{identifiers -> f:count()} > 0"><span class="badge badge-success fs-5 px-2 py-1" title="{identifiers -> f:count()} page variation(s) found">{identifiers -> f:count()}</span></f:if>
         </h1>
 
-        <f:if condition="{cacheExistsInDatabase}">
+        <f:if condition="{cacheBackendSupported}">
             <f:then>
                 <f:if condition="{identifiers -> f:count()} == 0">
                     <f:then>
@@ -26,7 +27,7 @@
                     </f:then>
                     <f:else>
                         <f:for each="{identifiers}" key="identifier" as="cache">
-                            <fieldset style="margin-bottom: 3rem;">
+                            <fieldset style="margin-bottom: 1rem;">
                                 <legend style="font-size: 1.2em;">
                                     <core:iconForRecord table="pages" row="{pageRow}" />
                                     Page variation "{identifier}"
@@ -81,8 +82,8 @@
                 </f:if>
             </f:then>
             <f:else>
-                <p><em class="text-danger">This info module is only supported, when the page cache is stored in a database connection.</em></p>
-                <p><em class="text-danger">Tables "cf_cache_pages" and/or "cf_cache_pages_tags" not found.</em></p>
+                <p><b><em class="text-danger">Your configured backend cache for pages "{cacheBackendName}" is currently not supported by this info module.</em></b></p>
+                <p><b><em class="text-danger">This has no affect to the main functionality of Fluid Page Cache.</em></b></p>
             </f:else>
         </f:if>
     </f:else>

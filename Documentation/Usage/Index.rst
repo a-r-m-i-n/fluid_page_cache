@@ -23,9 +23,15 @@ page cache.
 
 
 .. caution::
-   The info module only works, when the page cache is stored in database.
+   The info module does not work for all Cache backends, yet.
 
-When you use e.g. Redis, the info module will not work.
+**Supported cache backends are:**
+
+- Typo3Database
+- Redis
+- SimpleFile
+
+When you use e.g. APCU, the info module will not work.
 
 The main functionality of fluid_page_cache is not affected. It supports all cache backends, the Caching Framework is
 compatible with.
