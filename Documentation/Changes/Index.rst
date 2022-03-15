@@ -7,6 +7,16 @@
 Changes
 =======
 
+2.0.0
+-----
+
+- [TASK] Change TYPO3 and PHP requirements
+	- dropped TYPO3 8.7 and 9.5 support
+    - added TYPO3 11 support
+- [TASK] Remove compatibility layers for older TYPO3 versions
+- [FEATURE] Add support for "Redis" and "Simple File" cache in Info Module
+
+
 1.1.0
 -----
 
