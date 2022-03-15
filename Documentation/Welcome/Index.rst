@@ -13,7 +13,7 @@ with **zero configuration**.
 Once installed, all entities you use in your Fluid templates will **automatically** create a new cache tag
 for current page cache variation.
 
-Fluid Page Cache also provides an Info module, which visualizes the page cache.
+Fluid Page Cache also provides an Info module, which visualizes the cache entries of each page (variation).
 
 **The following screenshot, displays a single detail page of EXT:news.**
 
