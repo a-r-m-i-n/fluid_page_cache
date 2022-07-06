@@ -28,13 +28,11 @@ class DataHandlerHook
         if ((isset($params['table'], $params['uid']) || isset($params['uid_page']))
             && RegistryUtility::isEnabled($params['table'])
         ) {
-            $cacheTag = isset($params['uid_page'])
-                ?  PageCacheManager::CACHE_TAG_PREFIX . 'pid_' . $params['uid_page']
-                :  PageCacheManager::CACHE_TAG_PREFIX . $params['table'] . '_' . $params['uid'];
+            $cacheTag = PageCacheManager::CACHE_TAG_PREFIX . $params['table'] . '_' . $params['uid'];
 
             /** @var CacheManager $cacheManager */
             $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
-            $cacheManager->flushCachesInGroupByTag('pages', $cacheTag);
+            $cacheManager->flushCachesByTag($cacheTag);
         }
     }
 }
