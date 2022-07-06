@@ -12,6 +12,7 @@
         }
     ],
     "require": {
+        "php": "^7.4 || ^8.0",
         "typo3/cms-core": "^10.4.6 || ^11.5"
     },
     "autoload": {
