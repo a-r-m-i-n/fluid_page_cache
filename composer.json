@@ -19,5 +19,10 @@
         "psr-4": {
             "T3\\FluidPageCache\\": "Classes/"
         }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "fluid_page_cache"
+        }
     }
 }
