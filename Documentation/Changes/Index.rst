@@ -7,6 +7,13 @@
 Changes
 =======
 
+2.0.1
+-----
+
+- [TASK] Add extension-key to composer.json
+- [TASK] Add PHP requirements
+
+
 2.0.0
 -----
 
