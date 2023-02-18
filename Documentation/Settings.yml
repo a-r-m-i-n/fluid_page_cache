@@ -5,7 +5,7 @@
 
 ---
 conf.py:
-  copyright: 2019-2022
+  copyright: 2019-2023
   project: Fluid Page Cache
   version: 2.0
   release: 2.0.0

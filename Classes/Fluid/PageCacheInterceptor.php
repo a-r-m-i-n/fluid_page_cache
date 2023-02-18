@@ -4,7 +4,7 @@ namespace T3\FluidPageCache\Fluid;
 /*  | This extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2019-2022 Armin Vieweg <info@v.ieweg.de>
+ *  | (c) 2019-2023 Armin Vieweg <info@v.ieweg.de>
  */
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3Fluid\Fluid\Core\Parser\InterceptorInterface;

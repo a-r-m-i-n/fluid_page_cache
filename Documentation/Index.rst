@@ -25,7 +25,7 @@ Fluid Page Cache
 		TYPO3 CMS, Cache, Page Cache, Cache Magic, Fluid, View
 
 	:Copyright:
-		2019-2022
+		2019-2023
 
 	:Author:
 		Armin Vieweg
