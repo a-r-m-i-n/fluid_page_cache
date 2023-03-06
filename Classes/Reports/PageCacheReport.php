@@ -185,6 +185,9 @@ class PageCacheReport
     protected function getCacheKeyInfo(AbstractBackend $backend, $keySanitized): ?array
     {
         $info = $backend->get($keySanitized);
+        if ($info === false) {
+            return null;
+        }
         $info = unserialize($info, ['allowed_classes' => false]);
 
         if ($info['page_id'] !== $this->id) {
