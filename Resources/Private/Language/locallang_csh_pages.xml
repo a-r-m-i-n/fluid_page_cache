@@ -6,7 +6,7 @@
     </meta>
     <data type="array">
         <languageKey index="default" type="array">
-            <label index="tx_fluidpagecache_pid_cache_tag.description">Fluid Page Cache: When this option is enable, Fluid Page Cache will create an additional cache tag for the records' PID (e.g. sys_folder). This is especially useful, when the page cache of all page variants of this page should get cleared, for example when you create a new record in a sys_folder.</label>
+            <label index="tx_fluidpagecache_pid_cache_tag.description">Fluid Page Cache: When this option is enabled, Fluid Page Cache will create an additional cache tag for the records' PID (e.g. sys_folder). This is especially useful, when the page cache of all page variants of this page should get cleared, for example, when you create a new record in a sys_folder.</label>
         </languageKey>
         <languageKey index="de" type="array">
             <label index="tx_fluidpagecache_pid_cache_tag.description">Fluid Page Cache: Wenn diese Option aktiviert ist, erstellt Fluid Page Cache einen zusätzlichen Cache Tag für die PID aller Records (z.B. deren Sysfolder). Dies ist besonders sinnvoll, wenn der Seitencache aller Varianten dieser Seite geleert werden müssen, z.B. wenn in einem SysFolder ein neuer Record hinzugefügt wurde.</label>

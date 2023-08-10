@@ -46,7 +46,7 @@ Here you can find how cHash is calculated: `CacheHashCalculator`_
 4. Remove parameters to be excluded from cHash (global TYPO3 configuration)
 5. Create final md5 hash from serialized parameters array
 
-This cHash is used as identifier. Each **page variation** get's its own identifier.
+This cHash is used as identifier. Each **page variation** gets its own identifier.
 
 
 Page variations
