@@ -66,8 +66,8 @@ Example with news extension
 .. note::
    Because of how Georg used the page cache in his news extension, I've had got the idea of this extension.
 
-The following screenshots shows contents from database table **cf_cache_pages_tags**
-(TYPO3 9.5, since v10 the ``cf_`` prefix has been dropped).
+The following screenshots shows contents from database table **cache_pages_tags**
+(since v10 the ``cf_`` prefix has been dropped).
 
 .. image:: Images/cache_pages_tags.png
    :alt: Page cache tags in TYPO3

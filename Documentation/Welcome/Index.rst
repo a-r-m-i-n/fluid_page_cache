@@ -18,10 +18,10 @@ Fluid Page Cache also provides an Info module, which visualizes the cache entrie
 **The following screenshot, displays a single detail page of EXT:news.**
 
 .. image:: Images/info_module.png
-   :scale: 50%
+   :scale: 80%
    :alt: Page cache tags in TYPO3
 
-The yellow marked entries are provides by news. ``pageId_2`` is provided by the core itself.
+The yellow marked entries are provides by news. ``pageId_1`` is provided by the core itself.
 All others are generated automatically, based on the actual used entities, by fluid_page_cache.
 
 Because **all actual used entities** have a **corresponding cache tag** now, you can precisely clear only

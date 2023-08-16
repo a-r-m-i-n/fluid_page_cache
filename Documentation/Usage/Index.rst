@@ -7,23 +7,27 @@
 Usage
 =====
 
-fluid_page_cache comes with zero configuration and works out of the box, when it is installed.
+fluid_page_cache works out of the box, when it is installed. In case you want to use the backend module, you have to
+enable it in extension settings.
 
-
-
-Info Module
------------
-
-fluid_page_cache ships an Info Module which allows you to see the records used in view, for each page variation in
-page cache.
-
-.. image:: ../Welcome/Images/info_module.png
+.. image:: Images/extension_setting.png
    :scale: 50%
    :alt: Page cache tags in TYPO3
 
 
+Backend Module
+-----------
+
+fluid_page_cache ships an Backend Module which allows you to see the records used in view, for each page variation in
+page cache.
+
+.. image:: ../Welcome/Images/info_module.png
+   :scale: 80%
+   :alt: Page cache tags in TYPO3
+
+
 .. caution::
-   The info module does not work for all Cache backends, yet.
+   The Backend Module does not work for all Cache backends, yet.
 
 **Supported cache backends are:**
 
@@ -35,6 +39,11 @@ When you use e.g. APCU, the info module will not work.
 
 The main functionality of fluid_page_cache is not affected. It supports all cache backends, the Caching Framework is
 compatible with.
+
+You can also disable or enable the Backend Module in extension settings.
+
+.. hint::
+   The Backend Module has restricted access, Only users with the **admin** role can see it.
 
 
 Handling new records

@@ -13,8 +13,8 @@ Install it like any other extension in TYPO3 CMS.
 Requirements
 ------------
 
-- PHP 7.4+
-- TYPO3 10.4 or 11.5 LTS
+- PHP 8.1+
+- TYPO3 12.4 LTS or higher
 
 
 With Composer
