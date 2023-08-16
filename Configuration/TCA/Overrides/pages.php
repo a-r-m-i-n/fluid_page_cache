@@ -8,7 +8,8 @@
 
 $columns = [
     'tx_fluidpagecache_pid_cache_tag' => [
-        'label' => 'LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang_db.xml:tx_fluidpagecache_pid_cache_tag',
+        'label' => 'LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang_db.xlf:tx_fluidpagecache_pid_cache_tag',
+        'description' => 'LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang_db.xlf:tx_fluidpagecache_pid_cache_tag.description',
         'config' => [
             'type' => 'check',
         ],
