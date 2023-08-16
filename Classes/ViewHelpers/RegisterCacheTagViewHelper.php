@@ -7,6 +7,7 @@ namespace T3\FluidPageCache\ViewHelpers;
  *  | (c) 2019-2023 Armin Vieweg <info@v.ieweg.de>
  */
 use T3\FluidPageCache\PageCacheManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -27,7 +28,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class RegisterCacheTagViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('table', 'string', 'Tablename of record to create page cache tag for.', true);
@@ -35,9 +36,9 @@ class RegisterCacheTagViewHelper extends AbstractViewHelper
         $this->registerArgument('pid', 'int', 'PID of record to create page cache tag for.', true);
     }
 
-    public function render()
+    public function render(): void
     {
-        PageCacheManager::registerCacheTag(
+        GeneralUtility::makeInstance(PageCacheManager::class)->registerCacheTag(
             (string) $this->arguments['table'],
             (int) $this->arguments['uid'],
             (int) $this->arguments['pid']

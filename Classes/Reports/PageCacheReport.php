@@ -1,80 +1,35 @@
-<?php declare(strict_types=1);
+<?php
+
 namespace T3\FluidPageCache\Reports;
 
-/*  | This extension is made with ❤ for TYPO3 CMS and is licensed
- *  | under GNU General Public License.
- *  |
- *  | (c) 2019-2023 Armin Vieweg <info@v.ieweg.de>
- */
+use Doctrine\DBAL\Exception;
+use RedisException;
 use T3\FluidPageCache\Cache\Backend\CustomRedisBackend;
 use T3\FluidPageCache\Cache\Backend\CustomSimpleFileBackend;
 use T3\FluidPageCache\PageCacheManager;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Cache\Backend\AbstractBackend;
-use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 
-/**
- * Provides entry for Info module
- */
 class PageCacheReport
 {
-    private int $id;
-    protected ConnectionPool $connectionPool;
-    private CacheManager $cacheManager;
-
-    public function __construct()
-    {
-        $this->id = (int) (GeneralUtility::_GET('id') ?? 0);
-        $this->connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-        $this->cacheManager = GeneralUtility::makeInstance(CacheManager::class);
-    }
 
     /**
-     * Main method of modfuncreport
-     *
-     * @return string Module content
-     * @throws \Exception
+     * @throws \TYPO3\CMS\Core\Cache\Exception
      */
-    public function main()
-    {
-        /** @var StandaloneView $view */
-        $view = GeneralUtility::makeInstance(StandaloneView::class);
-        $view->getTemplatePaths()->setTemplatePathAndFilename(
-            GeneralUtility::getFileAbsFileName('EXT:fluid_page_cache/Resources/Private/Templates/PageCacheReport.html')
-        );
-
-        $cacheBackendName = $this->getPagesCacheBackendName();
-        $method = 'list' . $cacheBackendName . 'Entries';
-        $items = method_exists($this, $method) ? $this->$method($this->id) : [];
-
-        $view->assign('now', new \DateTime());
-        $view->assign('id', $this->id);
-        $view->assign('pageRow', BackendUtility::getRecord('pages', $this->id));
-        $view->assign('cacheBackendSupported', method_exists($this, $method));
-        $view->assign('cacheBackendName', $cacheBackendName);
-
-        if ($this->id) {
-            $view->assign('identifiers', array_reverse($items));
-
-        }
-        return $view->render();
-    }
-
-    protected function listSimpleFileBackendEntries(): array
+    public function listSimpleFileBackendEntries($cacheManager, $pageUid): array
     {
         $options = $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['pages']['options'] ?? [];
 
         /** @var CustomSimpleFileBackend $backend */
         $backend = GeneralUtility::makeInstance(CustomSimpleFileBackend::class, '', $options);
-        $backend->setCache($this->cacheManager->getCache('pages'));
+        $backend->setCache($cacheManager->getCache('pages'));
 
         $keys = $backend->all();
         $result = [];
         foreach ($keys as $key) {
-            $row = $this->getCacheKeyInfo($backend, $key);
+            $row = $this->getCacheKeyInfo($backend, $key, $pageUid);
             if ($row) {
                 $result[$key] = $row;
             }
@@ -82,18 +37,21 @@ class PageCacheReport
         return $result;
     }
 
-    protected function listRedisBackendEntries(): array
+    /**
+     * @throws RedisException
+     */
+    public function listRedisBackendEntries($cacheManager, $pageUid): array
     {
         $options = $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['pages']['options'];
 
         /** @var CustomRedisBackend $backend */
         $backend = GeneralUtility::makeInstance(CustomRedisBackend::class, '', $options);
-        $backend->setCache($this->cacheManager->getCache('pages'));
+        $backend->setCache($cacheManager->getCache('pages'));
 
         $keys = $backend->all();
         $result = [];
         foreach ($keys as $key) {
-            $row = $this->getCacheKeyInfo($backend, $key);
+            $row = $this->getCacheKeyInfo($backend, $key, $pageUid);
             if ($row) {
                 $result[$key] = $row;
             }
@@ -102,44 +60,50 @@ class PageCacheReport
         return $result;
     }
 
-    protected function listTypo3DatabaseBackendEntries(): array
+    /**
+     * @throws Exception
+     */
+    public function listTypo3DatabaseBackendEntries($pageUid): array
     {
-        $queryBuilder = $this->connectionPool->getQueryBuilderForTable('cache_pages_tags');
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+
+        $queryBuilder = $connectionPool->getQueryBuilderForTable('cache_pages_tags');
         $cacheTagRows = $queryBuilder
             ->select('*')
             ->from('cache_pages_tags')
-            ->where('tag = "pageId_' . $this->id . '"')
-            ->execute()
-            ->fetchAll(\PDO::FETCH_ASSOC) ?? [];
+            ->where('tag = "pageId_' . $pageUid . '"')
+            ->executeQuery()
+            ->fetchAllAssociative() ?? [];
 
         $identifiers = [];
         foreach ($cacheTagRows as $cacheTagRow) {
-            $queryBuilder = $this->connectionPool->getQueryBuilderForTable('cache_pages');
+            $queryBuilder = $connectionPool->getQueryBuilderForTable('cache_pages');
             $cacheRow = $queryBuilder
-                ->select('*')
+                ->select('id', 'identifier', 'expires')
                 ->from('cache_pages')
                 ->where('identifier = "' . $cacheTagRow['identifier'] . '"')
-                ->execute()
-                ->fetch(\PDO::FETCH_ASSOC);
+                ->executeQuery()
+                ->fetchAssociative();
 
-            $queryBuilder = $this->connectionPool->getQueryBuilderForTable('cache_pages_tags');
+            $queryBuilder = $connectionPool->getQueryBuilderForTable('cache_pages_tags');
             $tagRows = $queryBuilder
                 ->select('*')
                 ->from('cache_pages_tags')
                 ->where('identifier = "' . $cacheTagRow['identifier'] . '"')
-                ->execute()
-                ->fetchAll(\PDO::FETCH_ASSOC);
+                ->executeQuery()
+                ->fetchAllAssociative();
 
             $tags = [];
             foreach ($tagRows as $tagRow) {
                 $tags[] = $this->createTagRowByTagName($tagRow['tag']);
             }
+
             $identifiers[$cacheTagRow['identifier']] = ['tags' => $tags, 'expires' => $cacheRow['expires']];
         }
         return $identifiers;
     }
 
-    protected function resolveRecordTitle(string $table, int $uid): string
+    public function resolveRecordTitle(string $table, int $uid): string
     {
         $labelField = $GLOBALS['TCA'][$table]['ctrl']['label'];
         if (!$labelField) {
@@ -149,7 +113,7 @@ class PageCacheReport
         return (string) $row[$labelField];
     }
 
-    protected function createTagRowByTagName(string $tagName): array
+    public function createTagRowByTagName(string $tagName): array
     {
         $table = $uid = null;
         $tag = $tagName;
@@ -173,21 +137,21 @@ class PageCacheReport
         ];
     }
 
-    protected function getPagesCacheBackendName(): string
+    public function getPagesCacheBackendName($cacheManager): string
     {
-        $cache = $this->cacheManager->getCache('pages');
+        $cache = $cacheManager->getCache('pages');
         $backend = get_class($cache->getBackend());
         $backend = explode('\\', $backend);
 
         return end($backend);
     }
 
-    protected function getCacheKeyInfo(AbstractBackend $backend, $keySanitized): ?array
+    public function getCacheKeyInfo(AbstractBackend $backend, $keySanitized, $pageUid): ?array
     {
         $info = $backend->get($keySanitized);
         $info = unserialize($info, ['allowed_classes' => false]);
 
-        if ($info['page_id'] !== $this->id) {
+        if ($info['page_id'] !== $pageUid) {
             return null;
         }
 

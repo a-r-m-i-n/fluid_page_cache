@@ -9,6 +9,7 @@ namespace T3\FluidPageCache\Hooks;
 use T3\FluidPageCache\PageCacheManager;
 use T3\FluidPageCache\Utility\RegistryUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Cache\Exception\NoSuchCacheGroupException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -17,7 +18,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DataHandlerHook
 {
-    public function clearCachePostProc(array $params)
+    /**
+     * @throws NoSuchCacheGroupException
+     */
+    public function clearCachePostProc(array $params): void
     {
         // When all/system/pages caches get cleared
         if (isset($params['cacheCmd'])) {

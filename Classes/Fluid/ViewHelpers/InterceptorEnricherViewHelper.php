@@ -7,6 +7,8 @@ namespace T3\FluidPageCache\Fluid\ViewHelpers;
  *  | (c) 2019-2023 Armin Vieweg <info@v.ieweg.de>
  */
 use T3\FluidPageCache\PageCacheManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Generic\Exception;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -19,12 +21,15 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class InterceptorEnricherViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('objectPath', 'string', '', true);
     }
 
+    /**
+     * @throws Exception
+     */
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
@@ -33,7 +38,7 @@ class InterceptorEnricherViewHelper extends AbstractViewHelper
         $objectPath = trim($arguments['objectPath'], "'");
         $subject = $renderingContext->getVariableProvider()->getByPath($objectPath);
         if ($subject) {
-            PageCacheManager::registerEntity($subject);
+            GeneralUtility::makeInstance(PageCacheManager::class)->registerEntity($subject);
         }
         return $renderChildrenClosure();
     }

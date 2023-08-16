@@ -21,15 +21,7 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContext;
  */
 class PageCacheInterceptor implements InterceptorInterface
 {
-
-    /**
-     * @param NodeInterface $node
-     * @param int $interceptorPosition
-     * @param ParsingState $parsingState
-     * @return NodeInterface
-     * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception
-     */
-    public function process(NodeInterface $node, $interceptorPosition, ParsingState $parsingState)
+    public function process(NodeInterface $node, $interceptorPosition, ParsingState $parsingState): ViewHelperNode|EscapingNode|NodeInterface
     {
         $view = new StandaloneView();
         $context = new RenderingContext($view);
@@ -46,9 +38,15 @@ class PageCacheInterceptor implements InterceptorInterface
                 ? substr($node->getObjectPath(), 0, strrpos($node->getObjectPath(), '.'))
                 : $node->getObjectPath();
 
-            $wrapperNode = new ViewHelperNode($context, 'fluidPageCache', 'interceptorEnricher', [
-                'objectPath' => "'" . $truncatedObjectPath . "'"
-            ], $parsingState);
+            $wrapperNode = new ViewHelperNode(
+                $context,
+                'fluidPageCache',
+                'interceptorEnricher',
+                [
+                    'objectPath' => "'" . $truncatedObjectPath . "'"
+                ],
+                $parsingState
+            );
             $wrapperNode->addChildNode($node);
             if ($escapingNode) {
                 return new EscapingNode($wrapperNode);
@@ -61,7 +59,7 @@ class PageCacheInterceptor implements InterceptorInterface
     /**
      * @inheritDoc
      */
-    public function getInterceptionPoints()
+    public function getInterceptionPoints(): array
     {
         return [
             InterceptorInterface::INTERCEPT_OBJECTACCESSOR,

@@ -8,11 +8,11 @@ $EM_CONF[$_EXTKEY] = [
     'author_email' => 'info@v.ieweg.de',
     'state' => 'stable',
     'author_company' => 'v.ieweg Webentwicklung',
-    'version' => '2.0.1',
+    'version' => '2.1.0',
     'constraints' => [
         'depends' => [
-            'php' => '7.4.0-8.1.99',
-            'typo3' => '10.4.6-11.5.99'
+            'php' => '>=8.1.0',
+            'typo3' => '>=12.4.0'
         ],
         'conflicts' => [],
         'suggests' => [],

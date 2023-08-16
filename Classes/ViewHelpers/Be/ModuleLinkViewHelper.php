@@ -6,11 +6,14 @@ namespace T3\FluidPageCache\ViewHelpers\Be;
  *  |
  *  | (c) 2019-2023 Armin Vieweg <info@v.ieweg.de>
  */
+
+use Closure;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 
 /**
  * This view helper returns a link to module in TYPO3 backend
@@ -22,9 +25,9 @@ class ModuleLinkViewHelper extends AbstractViewHelper
     /**
      * Initialize arguments.
      *
-     * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception
+     * @throws Exception
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('module', 'string', 'Name of module');
@@ -34,17 +37,14 @@ class ModuleLinkViewHelper extends AbstractViewHelper
     /**
      * Resolve user name from backend user id.
      *
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
-     * @return string Created module link
      * @throws RouteNotFoundException
      */
     public static function renderStatic(
         array $arguments,
-        \Closure $renderChildrenClosure,
+        Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    ) {
+    ): string
+    {
         $parameters = GeneralUtility::explodeUrl2Array($arguments['parameter']);
         return static::getModuleUrl($arguments['module'], $parameters);
     }
@@ -52,11 +52,9 @@ class ModuleLinkViewHelper extends AbstractViewHelper
     /**
      * Returns the URL to a given module
      *
-     * @param string $moduleName Name of the module
-     * @param array $urlParameters URL parameters that should be added as key value pairs
-     * @return string Calculated URL
+     * @throws RouteNotFoundException
      */
-    protected static function getModuleUrl($moduleName, $urlParameters = []) : string
+    protected static function getModuleUrl(string $moduleName, array $urlParameters = []) : string
     {
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         try {
