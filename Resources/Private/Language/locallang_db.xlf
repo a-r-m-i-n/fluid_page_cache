@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2020-04-21T12:00:00Z" product-name="fpc">
+		<header/>
+		<body>
+			<trans-unit id="tx_fluidpagecache_pid_cache_tag">
+				<source>FPC: Enable PID cache tag</source>
+			</trans-unit>
+			<trans-unit id="tx_fluidpagecache_pid_cache_tag.description">
+				<source>Fluid Page Cache: When this option is enabled, Fluid Page Cache will create an additional cache tag for the records' PID (e.g. sys_folder). This is especially useful, when the page cache of all page variants of this page should get cleared, for example, when you create a new record in a sys_folder.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
