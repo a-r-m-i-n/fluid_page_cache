@@ -7,11 +7,9 @@
     <data type="array">
         <languageKey index="default" type="array">
             <label index="tx_fluidpagecache_pid_cache_tag">FPC: Enable PID cache tag</label>
-
         </languageKey>
         <languageKey index="de" type="array">
             <label index="tx_fluidpagecache_pid_cache_tag">FPC: Aktiviere PID Cache-Tag</label>
-
         </languageKey>
     </data>
 </T3locallang>

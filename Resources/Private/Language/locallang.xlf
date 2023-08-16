@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2020-04-21T12:00:00Z" product-name="fpc">
+		<header/>
+		<body>
+			<trans-unit id="fpc-info">
+				<source>Fluid Page Cache Info</source>
+			</trans-unit>
+			<trans-unit id="no-selected-page">
+				<source>Please select a page in page tree!</source>
+			</trans-unit>
+			<trans-unit id="used-cache-backend">
+				<source>Used cache backend for pages:</source>
+			</trans-unit>
+			<trans-unit id="page-variation">
+				<source>Page Variation</source>
+			</trans-unit>
+			<trans-unit id="expires">
+				<source>Expires</source>
+			</trans-unit>
+			<trans-unit id="date-now">
+				<source>Date Now</source>
+			</trans-unit>
+			<trans-unit id="record">
+				<source>Record</source>
+			</trans-unit>
+			<trans-unit id="identifier">
+				<source>Identifier</source>
+			</trans-unit>
+			<trans-unit id="table">
+				<source>Table</source>
+			</trans-unit>
+			<trans-unit id="uid">
+				<source>Uid</source>
+			</trans-unit>
+			<trans-unit id="no-cache-exists">
+				<source>This page has not been cached yet.</source>
+			</trans-unit>
+			<trans-unit id="unsupported">
+				<source>Your configured backend cache for pages "%s" is currently not supported by this info module.</source>
+			</trans-unit>
+			<trans-unit id="no-effect">
+				<source>This has no effect on the main functionality of Fluid Page Cache.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

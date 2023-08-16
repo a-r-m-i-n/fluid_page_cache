@@ -15,10 +15,8 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ThisUrlViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
-    public function initializeArguments()
+
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('showHost', 'boolean', 'If TRUE the hostname will be included');
@@ -32,10 +30,7 @@ class ThisUrlViewHelper extends AbstractViewHelper
         $this->registerArgument('urlencode', 'boolean', 'If TRUE the whole result will be URI encoded');
     }
 
-    /**
-     * @return string
-     */
-    public function render()
+    public function render(): string
     {
         $url = '';
         if ($this->arguments['showHost']) {

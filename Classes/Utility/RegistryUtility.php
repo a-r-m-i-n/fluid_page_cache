@@ -6,6 +6,7 @@ namespace T3\FluidPageCache\Utility;
  *  |
  *  | (c) 2019-2023 Armin Vieweg <info@v.ieweg.de>
  */
+
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -15,16 +16,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class RegistryUtility
 {
-    /**
-     * @var Registry
-     */
-    private static $registry;
+    private static ?Registry $registry = null;
 
     /**
      * Enables table to get cleared during cache clearing
-     *
-     * @param string $table
-     * @return void
      */
     public static function enable(string $table): void
     {
@@ -38,9 +33,6 @@ class RegistryUtility
 
     /**
      * Checks if given table is enabled
-     *
-     * @param string $table
-     * @return bool
      */
     public static function isEnabled(string $table): bool
     {
@@ -50,8 +42,6 @@ class RegistryUtility
 
     /**
      * Returns all enabled pages
-     *
-     * @return array
      */
     protected static function getEnabledTables(): array
     {

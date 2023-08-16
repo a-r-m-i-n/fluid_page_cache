@@ -6,16 +6,21 @@ namespace T3\FluidPageCache\Cache\Backend;
  *  |
  *  | (c) 2019-2023 Armin Vieweg <info@v.ieweg.de>
  */
+
+use RedisException;
 use TYPO3\CMS\Core\Cache\Backend\RedisBackend;
 
 class CustomRedisBackend extends RedisBackend
 {
-    public function __construct($context, array $options = [])
+    public function __construct(string $context = '', array $options = [])
     {
         parent::__construct($context, $options);
         $this->initializeObject();
     }
 
+    /**
+     * @throws RedisException
+     */
     public function all(): array
     {
         $keys = $this->redis->keys('identTags:*');

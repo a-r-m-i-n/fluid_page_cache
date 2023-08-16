@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" original="messages" date="2020-04-21T12:00:00Z" product-name="fpc">
+		<header/>
+		<body>
+			<trans-unit id="fpc-info">
+				<source/>
+				<target>Fluid Page Cache Information</target>
+			</trans-unit>
+			<trans-unit id="no-selected-page">
+				<source/>
+				<target>Bitte wählen Sie eine Seite im Seitenbaum!</target>
+			</trans-unit>
+			<trans-unit id="used-cache-backend">
+				<source/>
+				<target>Verwendetes Cache-Backend für Seiten:</target>
+			</trans-unit>
+			<trans-unit id="page-variation">
+				<source/>
+				<target>Seitenvariation</target>
+			</trans-unit>
+			<trans-unit id="expires">
+				<source/>
+				<target>Läuft ab</target>
+			</trans-unit>
+			<trans-unit id="date-now">
+				<source/>
+				<target>Datum jetzt</target>
+			</trans-unit>
+			<trans-unit id="record">
+				<source/>
+				<target>Datensatz</target>
+			</trans-unit>
+			<trans-unit id="identifier">
+				<source/>
+				<target>Kennung</target>
+			</trans-unit>
+			<trans-unit id="table">
+				<source/>
+				<target>Tabelle</target>
+			</trans-unit>
+			<trans-unit id="uid">
+				<source/>
+				<target>Uid</target>
+			</trans-unit>
+			<trans-unit id="no-cache-exists">
+				<source/>
+				<target>Diese Seite wurde noch nicht im Cache gespeichert.</target>
+			</trans-unit>
+			<trans-unit id="unsupported">
+				<source/>
+				<target>Der von Ihnen konfigurierte Backend-Cache für die Seiten "%s" wird von diesem Info-Modul derzeit nicht unterstützt.</target>
+			</trans-unit>
+			<trans-unit id="no-effect">
+				<source/>
+				<target>Dies hat keinen Einfluss auf die Hauptfunktionalität von Fluid Page Cache.</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

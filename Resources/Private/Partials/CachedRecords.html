@@ -1,0 +1,144 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+    xmlns:fpc="http://typo3.org/ns/T3/FluidPageCache/ViewHelpers"
+    xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<h1 style="display:flex;">
+    <f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:fpc-info"/>
+    <f:if condition="{identifiers -> f:count()} > 0">
+        <span
+            title="{identifiers -> f:count()} page variation(s) found"
+            class="badge badge-info fs-5 mx-2 px-2 py-1"
+            style="height:max-content; align-self: center;"
+        >
+            {identifiers -> f:count()}
+        </span>
+    </f:if>
+</h1>
+
+<f:if condition="{cacheBackendSupported}">
+    <f:then>
+        <f:if condition="{identifiers -> f:count()} == 0">
+            <f:then>
+                <f:render section="NoEntries" arguments="{_all}"/>
+            </f:then>
+            <f:else>
+                <f:render section="EntryTable" arguments="{_all}"/>
+            </f:else>
+        </f:if>
+        <p style="margin-top:auto;display:flex; justify-content:space-between">
+            <span><f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:used-cache-backend"/> <b>{cacheBackendName}</b></span>
+            <span><f:be.pageInfo /></span>
+        </p>
+    </f:then>
+    <f:else>
+        <f:render section="NotYetSupported" arguments="{_all}"/>
+    </f:else>
+</f:if>
+
+<f:section name="EntryTable">
+    <f:for each="{identifiers}" key="identifier" as="cache">
+        <fieldset class="mb-4">
+            <legend class="fs-5 mb-3">
+                <core:iconForRecord table="pages" row="{pageRow}" />
+                <f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:page-variation"/> "{identifier}"
+                <small class="text-danger">
+                    (<f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:expires"/>: <f:format.date format="Y-m-d H:i:s">{cache.expires}</f:format.date>)
+                </small>
+                <small class="text-info">
+                    (<f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:date-now"/>: <f:format.date format="Y-m-d H:i:s">{now}</f:format.date>)
+                </small>
+            </legend>
+            <div class="table-fit">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th><f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:record"/></th>
+                        <th><f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:identifier"/>
+                            <span
+                                class="badge badge-info mx-1"
+                                style="display: inline;">
+                                {cache.tags -> f:count()}
+                            </span>
+                        </th>
+                        <th><f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:table"/></th>
+                        <th><f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:uid"/></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <f:for each="{cache.tags}" as="tag">
+                        <tr>
+                            <td>
+                                <f:if condition="{tag.row}">
+                                    <f:then>
+                                        <div class="btn-toolbar" role="toolbar" aria-label="" style="justify-content:space-between;">
+                                            <a
+                                                class="d-flex align-items-center"
+                                                title="Edit this record"
+                                                href="{fpc:be.moduleLink(module:'record_edit', parameter:'edit[{tag.table}][{tag.uid}]=edit&returnUrl={fpc:be.thisUrl(showHost:\'0\', urlencode:\'1\')}')}"
+                                            >
+                                                <core:iconForRecord table="{tag.table}" row="{tag.row}" />
+                                                <span class="ms-2">{tag.title}</span>
+                                            </a>
+                                            <div class="btn-group" role="group" aria-label="">
+                                                <a
+                                                    class="btn btn-default"
+                                                    title="Edit this record"
+                                                    href="{fpc:be.moduleLink(module:'record_edit', parameter:'edit[{tag.table}][{tag.uid}]=edit&returnUrl={fpc:be.thisUrl(showHost:\'0\', urlencode:\'1\')}')}"
+                                                >
+                                                    <core:icon identifier="actions-file-edit" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </f:then>
+                                    <f:else>
+                                        -
+                                    </f:else>
+                                </f:if>
+                            </td>
+                            <td>
+                                <f:if condition="{tag.table}">
+                                    <f:then><code>{tag.tag}</code></f:then>
+                                    <f:else><code class="text-warning">{tag.tag}</code></f:else>
+                                </f:if>
+                            </td>
+                            <td>{tag.table}</td>
+                            <td>{tag.uid}</td>
+                        </tr>
+                    </f:for>
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+    </f:for>
+</f:section>
+
+<f:section name="NoEntries">
+    <p class="mt-4">
+        <em>
+            <f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:no-cache-exists"/>
+        </em>
+    </p>
+</f:section>
+
+<f:section name="NotYetSupported">
+    <p class="mt-4">
+        <b>
+            <em class="text-danger">
+                <f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:unsupported" arguments="{0: cacheBackendName}"/>
+        </em>
+        </b>
+    </p>
+    <p>
+        <b>
+            <em class="text-danger">
+                <f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:no-effect"/>
+            </em>
+        </b>
+    </p>
+</f:section>
+
+</html>

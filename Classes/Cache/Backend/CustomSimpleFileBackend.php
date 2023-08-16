@@ -12,6 +12,11 @@ use TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend;
 
 class CustomSimpleFileBackend extends SimpleFileBackend
 {
+    public function __construct(string $context = '', array $options = [])
+    {
+        parent::__construct($context, $options);
+    }
+
     public function all(): array
     {
         $finder = new Finder();

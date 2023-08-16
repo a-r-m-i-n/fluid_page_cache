@@ -6,10 +6,6 @@
  *  | (c) 2019-2023 Armin Vieweg <info@v.ieweg.de>
  */
 
-if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
-}
-
 $columns = [
     'tx_fluidpagecache_pid_cache_tag' => [
         'label' => 'LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang_db.xml:tx_fluidpagecache_pid_cache_tag',

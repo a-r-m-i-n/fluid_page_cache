@@ -1,90 +1,24 @@
-{namespace core=TYPO3\CMS\Core\ViewHelpers}
-{namespace fpc=T3\FluidPageCache\ViewHelpers}
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+    xmlns:fpc="http://typo3.org/ns/T3/FluidPageCache/ViewHelpers"
+    xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
 
-<f:if condition="!{id}">
-    <f:then>
-        <em>Please select a page in page tree!</em>
-    </f:then>
-    <f:else>
-        <div class="pull-right">
-            <small style="margin-right: 1em;" title="Used cache backend for pages"><b>{cacheBackendName}</b></small>
-            <small style="margin-right: 1em;">Now: <f:format.date format="Y-m-d H:i:s">{now}</f:format.date></small>
-            <a href="javascript:location.reload()" class="btn btn-default btn-sm"><i class="fa fa-refresh text-success"></i> Refresh</a>
+<f:layout name="Default"/>
 
-            <f:be.pageInfo />
-        </div>
+<f:section name="Content">
 
-        <h1><img src="{f:uri.resource(path:'Icons/ext_icon_32.png', extensionName:'FluidPageCache')}" alt="Fluid Page Cache Info Extension Icon">
-            Fluid Page Cache Info
-            <f:if condition="{identifiers -> f:count()} > 0"><span class="badge badge-success fs-5 px-2 py-1" title="{identifiers -> f:count()} page variation(s) found">{identifiers -> f:count()}</span></f:if>
-        </h1>
+    <f:if condition="{recordId}">
+        <f:then>
+            <f:render partial="CachedRecords" arguments="{_all}"/>
+        </f:then>
+        <f:else>
+            <f:render partial="NoRecordSelected" arguments="{_all}"/>
+        </f:else>
+    </f:if>
 
-        <f:if condition="{cacheBackendSupported}">
-            <f:then>
-                <f:if condition="{identifiers -> f:count()} == 0">
-                    <f:then>
-                        <em>This page has not been cached yet.</em>
-                    </f:then>
-                    <f:else>
-                        <f:for each="{identifiers}" key="identifier" as="cache">
-                            <fieldset style="margin-bottom: 1rem;">
-                                <legend style="font-size: 1.2em;">
-                                    <core:iconForRecord table="pages" row="{pageRow}" />
-                                    Page variation "{identifier}"
-                                    <small class="text-danger">
-                                        (Expires: <f:format.date format="Y-m-d H:i:s">{cache.expires}</f:format.date>)
-                                    </small>
-                                </legend>
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>Record</th>
-                                        <th>Identifier <span class="badge badge-info">{cache.tags -> f:count()}</span></th>
-                                        <th>Table</th>
-                                        <th>Uid</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <f:for each="{cache.tags}" as="tag">
-                                        <tr>
-                                            <td>
-                                                <f:if condition="{tag.row}">
-                                                    <f:then>
-                                                        <a title="Edit this record"
-                                                           href="{fpc:be.moduleLink(module:'record_edit', parameter:'edit[{tag.table}][{tag.uid}]=edit&returnUrl={fpc:be.thisUrl(showHost:\'0\', urlencode:\'1\')}')}"
-                                                        >
-                                                            <core:iconForRecord table="{tag.table}" row="{tag.row}" />
-                                                            {tag.title}
-                                                        </a>
-                                                    </f:then>
-                                                    <f:else>
-                                                        -
-                                                    </f:else>
-                                                </f:if>
-                                            </td>
-                                            <td>
-                                                <f:if condition="{tag.table}">
-                                                    <f:then><code>{tag.tag}</code></f:then>
-                                                    <f:else><code class="text-warning">{tag.tag}</code></f:else>
-                                                </f:if>
-                                            </td>
-                                            <td>{tag.table}</td>
-                                            <td>{tag.uid}</td>
-                                        </tr>
-                                    </f:for>
-                                    </tbody>
-                                </table>
+</f:section>
 
-
-                            </fieldset>
-                        </f:for>
-                    </f:else>
-                </f:if>
-            </f:then>
-            <f:else>
-                <p><b><em class="text-danger">Your configured backend cache for pages "{cacheBackendName}" is currently not supported by this info module.</em></b></p>
-                <p><b><em class="text-danger">This has no affect to the main functionality of Fluid Page Cache.</em></b></p>
-            </f:else>
-        </f:if>
-    </f:else>
-</f:if>
+</html>
