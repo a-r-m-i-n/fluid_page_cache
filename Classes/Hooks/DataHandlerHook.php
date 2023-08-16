@@ -28,17 +28,17 @@ class DataHandlerHook
             RegistryUtility::clear();
         }
 
+        $cacheTags = [];
         // When record gets updated
-        if ((isset($params['table'], $params['uid']) || isset($params['uid_page']))
-            && RegistryUtility::isEnabled($params['table'])
-        ) {
-            $cacheTag = isset($params['uid_page'])
-                ?  PageCacheManager::CACHE_TAG_PREFIX . 'pid_' . $params['uid_page']
-                :  PageCacheManager::CACHE_TAG_PREFIX . $params['table'] . '_' . $params['uid'];
-
-            /** @var CacheManager $cacheManager */
-            $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
-            $cacheManager->flushCachesInGroupByTag('pages', $cacheTag);
+        if (isset($params['table'], $params['uid']) && RegistryUtility::isEnabled($params['table'])) {
+            $cacheTags[] = PageCacheManager::CACHE_TAG_PREFIX . $params['table'] . '_' . $params['uid'];
         }
+        if (isset($params['uid_page'])) {
+            $cacheTags[] = PageCacheManager::CACHE_TAG_PREFIX . 'pid_' . $params['uid_page'];
+        }
+
+        /** @var CacheManager $cacheManager */
+        $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
+        $cacheManager->flushCachesInGroupByTags('pages', $cacheTags);
     }
 }
