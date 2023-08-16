@@ -13,8 +13,8 @@ Install it like any other extension in TYPO3 CMS.
 Requirements
 ------------
 
-- PHP 7.4+
-- TYPO3 10.4 or 11.5 LTS
+- PHP 8.1+
+- TYPO3 12.4 LTS
 
 
 With Composer
@@ -25,9 +25,6 @@ Add the package **t3/fluid_page_cache** to your ``composer.json`` file.
 .. code-block:: bash
 
     $ composer req t3/fluid_page_cache
-
-When the package is downloaded, **don't forget to activate the extension** in Extension Manager,
-if you did not automate this, with Composer.
 
 
 Without Composer

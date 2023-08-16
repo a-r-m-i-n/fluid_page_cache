@@ -7,8 +7,8 @@
 conf.py:
   copyright: 2019-2023
   project: Fluid Page Cache
-  version: 2.0
-  release: 2.0.1
+  version: 3.0
+  release: 3.0.0
   latex_documents:
   - - Index
     - fluid_page_cache.tex

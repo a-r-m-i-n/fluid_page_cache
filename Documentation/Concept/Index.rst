@@ -66,10 +66,11 @@ Example with news extension
 .. note::
    Because of how Georg used the page cache in his news extension, I've had got the idea of this extension.
 
-The following screenshots shows contents from database table **cf_cache_pages_tags**
-(TYPO3 9.5, since v10 the ``cf_`` prefix has been dropped).
+The following screenshots shows contents from database table **cache_pages_tags**
+(since v10 the ``cf_`` prefix has been dropped).
 
 .. image:: Images/cache_pages_tags.png
+   :width: 100%
    :alt: Page cache tags in TYPO3
 
 In this example I've created two news entries and called them separately in frontend (so the page cache is created).
@@ -141,7 +142,7 @@ The following diagram shows how fluid_page_cache creates a new bridge between Fl
 TYPO3's FrontendController, which utilizes the page cache in first instance.
 
 .. image:: Images/process.png
-   :scale: 50%
+   :width: 100%
    :alt: Diagram of how fluid_page_cache creates a new bridge between Fluid and TYPO3's FrontendController
 
 

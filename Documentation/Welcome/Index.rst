@@ -15,11 +15,12 @@ for current page cache variation.
 
 Fluid Page Cache also provides an Info module, which visualizes the cache entries of each page (variation).
 
-**The following screenshot, displays a single detail page of EXT:news.**
+**The following screenshot, displays two detail pages of EXT:news, located on the same page.**
 
-.. image:: Images/info_module.png
-   :scale: 50%
+.. image:: Images/backend_module.png
+   :width: 100%
    :alt: Page cache tags in TYPO3
+
 
 The yellow marked entries are provides by news. ``pageId_2`` is provided by the core itself.
 All others are generated automatically, based on the actual used entities, by fluid_page_cache.

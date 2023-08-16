@@ -7,23 +7,22 @@
 Usage
 =====
 
-fluid_page_cache comes with zero configuration and works out of the box, when it is installed.
+fluid_page_cache works out of the box, when it is installed.
 
 
+Backend Module
+--------------
 
-Info Module
------------
-
-fluid_page_cache ships an Info Module which allows you to see the records used in view, for each page variation in
+fluid_page_cache ships a Backend Module which allows you to see the records used in view, for each page variation in
 page cache.
 
-.. image:: ../Welcome/Images/info_module.png
-   :scale: 50%
+.. image:: ../Welcome/Images/backend_module.png
+   :width: 100%
    :alt: Page cache tags in TYPO3
 
 
 .. caution::
-   The info module does not work for all Cache backends, yet.
+   The Backend Module does not work for all Cache backends, yet.
 
 **Supported cache backends are:**
 
@@ -31,10 +30,12 @@ page cache.
 - Redis
 - SimpleFile
 
-When you use e.g. APCU, the info module will not work.
+When you use e.g. APCU, the info module will not work. But, the main functionality of fluid_page_cache is not affected.
+It supports all cache backends, the Caching Framework is compatible with.
 
-The main functionality of fluid_page_cache is not affected. It supports all cache backends, the Caching Framework is
-compatible with.
+.. hint::
+   The Backend Module has restricted access, only admin users can see it.
+   You can also disable or enable the Backend Module in extension settings.
 
 
 Handling new records
@@ -43,7 +44,7 @@ Handling new records
 fluid_page_cache works with zero configuration, but also adds a new option to pages cache options:
 
 .. image:: Images/page_cache_settings.png
-   :scale: 50%
+   :width: 100%
    :alt: Extended page cache settings
 
 When this option is enable, Fluid Page Cache will create **an additional cache tag** for the records' PID

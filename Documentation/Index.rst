@@ -54,6 +54,3 @@ Fluid Page Cache
         Usage/Index
         Support/Index
         Changes/Index
-
-.. note::
-   This extension has been supported by `Brandung <https://www.agentur-brandung.de/>`_.
