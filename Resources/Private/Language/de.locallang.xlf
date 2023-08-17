@@ -19,6 +19,10 @@
 				<source/>
 				<target>Seitenvariation</target>
 			</trans-unit>
+			<trans-unit id="page-variations-found">
+				<source/>
+				<target>Seitenvariationen gefunden</target>
+			</trans-unit>
 			<trans-unit id="expires">
 				<source/>
 				<target>Läuft ab</target>
@@ -31,9 +35,13 @@
 				<source/>
 				<target>Datensatz</target>
 			</trans-unit>
-			<trans-unit id="identifier">
+			<trans-unit id="cache-tags">
 				<source/>
-				<target>Kennung</target>
+				<target>Cache-Tags</target>
+			</trans-unit>
+			<trans-unit id="cache-tags-given">
+				<source/>
+				<target>Cache-Tags vorhanden</target>
 			</trans-unit>
 			<trans-unit id="table">
 				<source/>

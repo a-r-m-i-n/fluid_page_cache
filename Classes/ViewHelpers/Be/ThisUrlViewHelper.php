@@ -10,8 +10,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Returns the url of current page
- *
- * @see DCE Extension
  */
 class ThisUrlViewHelper extends AbstractViewHelper
 {

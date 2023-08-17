@@ -5,12 +5,11 @@ namespace T3\FluidPageCache\Hooks;
  *  | under GNU General Public License.
  *  |
  *  | (c) 2019-2023 Armin Vieweg <info@v.ieweg.de>
+ *  |     2023 Joel Mai <mai@iwkoeln.de>
  */
 use T3\FluidPageCache\PageCacheManager;
 use T3\FluidPageCache\Utility\RegistryUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
-use TYPO3\CMS\Core\Cache\Exception\NoSuchCacheGroupException;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This hook is called, after a "clear cache" has been performed,
@@ -18,9 +17,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DataHandlerHook
 {
-    /**
-     * @throws NoSuchCacheGroupException
-     */
+    public function __construct(private readonly CacheManager $cacheManager)
+    {
+    }
+
     public function clearCachePostProc(array $params): void
     {
         // When all/system/pages caches get cleared
@@ -37,8 +37,6 @@ class DataHandlerHook
             $cacheTags[] = PageCacheManager::CACHE_TAG_PREFIX . 'pid_' . $params['uid_page'];
         }
 
-        /** @var CacheManager $cacheManager */
-        $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
-        $cacheManager->flushCachesInGroupByTags('pages', $cacheTags);
+        $this->cacheManager->flushCachesInGroupByTags('pages', $cacheTags);
     }
 }

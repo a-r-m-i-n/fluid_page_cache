@@ -9,7 +9,7 @@
 			</trans-unit>
 			<trans-unit id="tx_fluidpagecache_pid_cache_tag.description">
 				<source/>
-				<target>Fluid Page Cache: Wenn diese Option aktiviert ist, erstellt Fluid Page Cache einen zusätzlichen Cache Tag für die PID aller Records (z.B. deren Sysfolder). Dies ist besonders sinnvoll, wenn der Seitencache aller Varianten dieser Seite geleert werden müssen, z.B. wenn in einem SysFolder ein neuer Record hinzugefügt wurde.</target>
+				<target>Fluid Page Cache: Wenn diese Option aktiviert ist, erstellt Fluid Page Cache einen zusätzlichen Cache Tag für die PID aller Records (z.B. deren Sysfolder). Dies ist sinnvoll, wenn der Seitencache aller Varianten dieser Seite geleert werden müssen, z.B. wenn in dem SysFolder ein neuer Record hinzugefügt wurde.</target>
 			</trans-unit>
 		</body>
 	</file>

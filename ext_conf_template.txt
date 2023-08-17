@@ -1,2 +1,2 @@
-# cat=Basic; type=boolean; label=Enable Standalone Backend Module: When enabled, the extension will be available as a standalone backend module. If disabled, the extension will be available as a plugin in the Web>Info module. (Default: disabled)
-enableStandaloneBackendModule = 0
+# cat=Basic; type=boolean; label=Enable Standalone Backend Module: When enabled, the extension will be available as a standalone backend module, which allows you to visualize set page cache tags.
+enableStandaloneBackendModule = 1

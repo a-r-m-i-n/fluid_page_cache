@@ -6,7 +6,6 @@ namespace T3\FluidPageCache\Utility;
  *  |
  *  | (c) 2019-2023 Armin Vieweg <info@v.ieweg.de>
  */
-
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -41,18 +40,6 @@ class RegistryUtility
     }
 
     /**
-     * Returns all enabled pages
-     */
-    protected static function getEnabledTables(): array
-    {
-        $enabledTables = static::$registry->get('fluid_page_cache', 'enabledTables') ?? [];
-        if ($enabledTables) {
-            $enabledTables = GeneralUtility::trimExplode(',', $enabledTables);
-        }
-        return $enabledTables;
-    }
-
-    /**
      * Clears the list of enabled tables.
      * This method is called, when all caches get cleared (pages/system/all)
      *
@@ -65,9 +52,21 @@ class RegistryUtility
     }
 
     /**
+     * Returns all enabled pages
+     */
+    private static function getEnabledTables(): array
+    {
+        $enabledTables = static::$registry->get('fluid_page_cache', 'enabledTables') ?? [];
+        if ($enabledTables) {
+            $enabledTables = GeneralUtility::trimExplode(',', $enabledTables);
+        }
+        return $enabledTables;
+    }
+
+    /**
      * Used in public methods, to initialize the Registry (sys_registry)
      */
-    protected static function initializeRegistry(): void
+    private static function initializeRegistry(): void
     {
         if (!static::$registry) {
             static::$registry = GeneralUtility::makeInstance(Registry::class);

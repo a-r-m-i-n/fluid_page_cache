@@ -44,8 +44,7 @@ class PageCacheInterceptor implements InterceptorInterface
                 'interceptorEnricher',
                 [
                     'objectPath' => "'" . $truncatedObjectPath . "'"
-                ],
-                $parsingState
+                ]
             );
             $wrapperNode->addChildNode($node);
             if ($escapingNode) {

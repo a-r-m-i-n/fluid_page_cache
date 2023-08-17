@@ -6,17 +6,21 @@
     data-namespace-typo3-fluid="true"
 >
 
-<h1 style="display:flex;">
+<h1 class="d-flex align-items-center text-nowrap border-bottom pb-2 mb-4">
     <f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:fpc-info"/>
     <f:if condition="{identifiers -> f:count()} > 0">
         <span
-            title="{identifiers -> f:count()} page variation(s) found"
+            title="{identifiers -> f:count()} {f:translate(key:'page-variations-found')}"
             class="badge badge-info fs-5 mx-2 px-2 py-1"
             style="height:max-content; align-self: center;"
         >
             {identifiers -> f:count()}
         </span>
     </f:if>
+
+    <small class="text-info fs-5 ms-4">
+        <f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:date-now"/>: <f:format.date format="Y-m-d H:i:s">{now}</f:format.date>
+    </small>
 </h1>
 
 <f:if condition="{cacheBackendSupported}">
@@ -29,8 +33,8 @@
                 <f:render section="EntryTable" arguments="{_all}"/>
             </f:else>
         </f:if>
-        <p style="margin-top:auto;display:flex; justify-content:space-between">
-            <span><f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:used-cache-backend"/> <b>{cacheBackendName}</b></span>
+        <p class="d-flex justify-content-between align-items-center border-top pt-2 mt-4">
+            <span class="small"><f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:used-cache-backend"/> <code class="fs-6" title="{cacheBackendNameFull}">{cacheBackendName}</code></span>
             <span><f:be.pageInfo /></span>
         </p>
     </f:then>
@@ -48,19 +52,14 @@
                 <small class="text-danger">
                     (<f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:expires"/>: <f:format.date format="Y-m-d H:i:s">{cache.expires}</f:format.date>)
                 </small>
-                <small class="text-info">
-                    (<f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:date-now"/>: <f:format.date format="Y-m-d H:i:s">{now}</f:format.date>)
-                </small>
             </legend>
             <div class="table-fit">
                 <table class="table table-striped table-hover">
                     <thead>
                     <tr>
                         <th><f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:record"/></th>
-                        <th><f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:identifier"/>
-                            <span
-                                class="badge badge-info mx-1"
-                                style="display: inline;">
+                        <th><f:translate key="LLL:EXT:fluid_page_cache/Resources/Private/Language/locallang.xlf:cache-tags"/>
+                            <span class="badge badge-info mx-1 d-inline" title="{cache.tags -> f:count()} {f:translate(key:'cache-tags-given')}">
                                 {cache.tags -> f:count()}
                             </span>
                         </th>

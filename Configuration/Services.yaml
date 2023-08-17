@@ -6,24 +6,3 @@ services:
 
     T3\FluidPageCache\:
         resource: '../Classes/*'
-
-    T3\FluidPageCache\Services\ExtensionConfigurationManager:
-        arguments:
-            - '@TYPO3\CMS\Core\Configuration\ExtensionConfiguration'
-
-    T3\FluidPageCache\Controller\InfoModuleController:
-        tags: ['backend.controller']
-
-    T3\FluidPageCache\Utility\RegistryUtility:
-        arguments:
-            - '@TYPO3\CMS\Core\Registry'
-
-    T3\FluidPageCache\PageCacheManager:
-        arguments:
-            - '@TYPO3\CMS\Core\Resource\FileRepository'
-            - '@TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper'
-
-    T3\FluidPageCache\Fluid\ViewHelpers\InterceptorEnricherViewHelper:
-        arguments:
-            - '@TYPO3\CMS\Core\Resource\FileRepository'
-            - '@TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper'

@@ -15,6 +15,9 @@
 			<trans-unit id="page-variation">
 				<source>Page Variation</source>
 			</trans-unit>
+			<trans-unit id="page-variations-found">
+				<source>page variation(s) found</source>
+			</trans-unit>
 			<trans-unit id="expires">
 				<source>Expires</source>
 			</trans-unit>
@@ -24,8 +27,11 @@
 			<trans-unit id="record">
 				<source>Record</source>
 			</trans-unit>
-			<trans-unit id="identifier">
-				<source>Identifier</source>
+			<trans-unit id="cache-tags">
+				<source>Cache tags</source>
+			</trans-unit>
+			<trans-unit id="cache-tags-given">
+				<source>cache tags given</source>
 			</trans-unit>
 			<trans-unit id="table">
 				<source>Table</source>

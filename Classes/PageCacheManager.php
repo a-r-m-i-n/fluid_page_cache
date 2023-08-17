@@ -9,7 +9,6 @@ namespace T3\FluidPageCache;
 use T3\FluidPageCache\Utility\RegistryUtility;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject;
-use TYPO3\CMS\Extbase\Persistence\Generic\Exception;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Core\Http\ApplicationType;
 
@@ -40,15 +39,13 @@ class PageCacheManager
      * This method only works in Frontend context and when $GLOBALS['TSFE'] is available.
      *
      * @param AbstractDomainObject|mixed $entity
-     * @throws Exception
      * @api
      */
     public function registerEntity(mixed $entity): void
     {
-        if (isset($GLOBALS['TSFE']) &&
+        if ($entity instanceof AbstractDomainObject &&
+            isset($GLOBALS['TSFE']) &&
             static::isFrontend() &&
-            $entity &&
-            $entity instanceof AbstractDomainObject &&
             $entity->getUid()
         ) {
             $tableName = $this->getDatabaseTableNameOfEntity($entity);
@@ -94,8 +91,6 @@ class PageCacheManager
 
     /**
      * Returns database table name of given Extbase entity
-     *
-     * @throws Exception
      */
     private function getDatabaseTableNameOfEntity(AbstractDomainObject $entity): string
     {

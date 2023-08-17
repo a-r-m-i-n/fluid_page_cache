@@ -6,14 +6,12 @@ namespace T3\FluidPageCache\ViewHelpers\Be;
  *  |
  *  | (c) 2019-2023 Armin Vieweg <info@v.ieweg.de>
  */
-
 use Closure;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 
 /**
  * This view helper returns a link to module in TYPO3 backend
@@ -22,11 +20,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
  */
 class ModuleLinkViewHelper extends AbstractViewHelper
 {
-    /**
-     * Initialize arguments.
-     *
-     * @throws Exception
-     */
     public function initializeArguments(): void
     {
         parent::initializeArguments();
@@ -36,8 +29,6 @@ class ModuleLinkViewHelper extends AbstractViewHelper
 
     /**
      * Resolve user name from backend user id.
-     *
-     * @throws RouteNotFoundException
      */
     public static function renderStatic(
         array $arguments,
@@ -51,8 +42,6 @@ class ModuleLinkViewHelper extends AbstractViewHelper
 
     /**
      * Returns the URL to a given module
-     *
-     * @throws RouteNotFoundException
      */
     protected static function getModuleUrl(string $moduleName, array $urlParameters = []) : string
     {

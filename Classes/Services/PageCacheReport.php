@@ -1,9 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+namespace T3\FluidPageCache\Services;
 
-namespace T3\FluidPageCache\Reports;
-
-use Doctrine\DBAL\Exception;
-use RedisException;
+/*  | This extension is made with ❤ for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
+ *  |
+ *  | (c) 2019-2023 Armin Vieweg <info@v.ieweg.de>
+ */
 use T3\FluidPageCache\Cache\Backend\CustomRedisBackend;
 use T3\FluidPageCache\Cache\Backend\CustomSimpleFileBackend;
 use T3\FluidPageCache\PageCacheManager;
@@ -14,9 +16,12 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class PageCacheReport
 {
+    public function __construct(private readonly ConnectionPool $connectionPool)
+    {
+    }
 
     /**
-     * @throws \TYPO3\CMS\Core\Cache\Exception
+     * @see \T3\FluidPageCache\Controller\BackendModuleController::mainAction()
      */
     public function listSimpleFileBackendEntries($cacheManager, $pageUid): array
     {
@@ -38,7 +43,7 @@ class PageCacheReport
     }
 
     /**
-     * @throws RedisException
+     * @see \T3\FluidPageCache\Controller\BackendModuleController::mainAction()
      */
     public function listRedisBackendEntries($cacheManager, $pageUid): array
     {
@@ -61,13 +66,11 @@ class PageCacheReport
     }
 
     /**
-     * @throws Exception
+     * @see \T3\FluidPageCache\Controller\BackendModuleController::mainAction()
      */
     public function listTypo3DatabaseBackendEntries($pageUid): array
     {
-        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-
-        $queryBuilder = $connectionPool->getQueryBuilderForTable('cache_pages_tags');
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable('cache_pages_tags');
         $cacheTagRows = $queryBuilder
             ->select('*')
             ->from('cache_pages_tags')
@@ -77,7 +80,7 @@ class PageCacheReport
 
         $identifiers = [];
         foreach ($cacheTagRows as $cacheTagRow) {
-            $queryBuilder = $connectionPool->getQueryBuilderForTable('cache_pages');
+            $queryBuilder = $this->connectionPool->getQueryBuilderForTable('cache_pages');
             $cacheRow = $queryBuilder
                 ->select('id', 'identifier', 'expires')
                 ->from('cache_pages')
@@ -85,7 +88,7 @@ class PageCacheReport
                 ->executeQuery()
                 ->fetchAssociative();
 
-            $queryBuilder = $connectionPool->getQueryBuilderForTable('cache_pages_tags');
+            $queryBuilder = $this->connectionPool->getQueryBuilderForTable('cache_pages_tags');
             $tagRows = $queryBuilder
                 ->select('*')
                 ->from('cache_pages_tags')
@@ -103,7 +106,20 @@ class PageCacheReport
         return $identifiers;
     }
 
-    public function resolveRecordTitle(string $table, int $uid): string
+    public function getPagesCacheBackendName($cacheManager, bool $onlyLastPart = true): string
+    {
+        $cache = $cacheManager->getCache('pages');
+        $backend = get_class($cache->getBackend());
+
+        if (!$onlyLastPart) {
+            return $backend;
+        }
+
+        $backend = explode('\\', $backend);
+        return end($backend);
+    }
+
+    private function resolveRecordTitle(string $table, int $uid): string
     {
         $labelField = $GLOBALS['TCA'][$table]['ctrl']['label'];
         if (!$labelField) {
@@ -113,7 +129,7 @@ class PageCacheReport
         return (string) $row[$labelField];
     }
 
-    public function createTagRowByTagName(string $tagName): array
+    private function createTagRowByTagName(string $tagName): array
     {
         $table = $uid = null;
         $tag = $tagName;
@@ -137,16 +153,7 @@ class PageCacheReport
         ];
     }
 
-    public function getPagesCacheBackendName($cacheManager): string
-    {
-        $cache = $cacheManager->getCache('pages');
-        $backend = get_class($cache->getBackend());
-        $backend = explode('\\', $backend);
-
-        return end($backend);
-    }
-
-    public function getCacheKeyInfo(AbstractBackend $backend, $keySanitized, $pageUid): ?array
+    private function getCacheKeyInfo(AbstractBackend $backend, $keySanitized, $pageUid): ?array
     {
         $info = $backend->get($keySanitized);
         $info = unserialize($info, ['allowed_classes' => false]);
