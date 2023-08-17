@@ -6,13 +6,12 @@ $EM_CONF[$_EXTKEY] = [
     'category' => 'be',
     'author' => 'Armin Vieweg',
     'author_email' => 'info@v.ieweg.de',
+    'author_company' => '',
     'state' => 'stable',
-    'author_company' => 'v.ieweg Webentwicklung',
-    'version' => '2.1.0',
+    'version' => '3.0.0',
     'constraints' => [
         'depends' => [
-            'php' => '>=8.1.0',
-            'typo3' => '>=12.4.0'
+            'typo3' => '12.4.0-12.4.99'
         ],
         'conflicts' => [],
         'suggests' => [],
