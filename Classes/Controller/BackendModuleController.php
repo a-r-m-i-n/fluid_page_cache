@@ -10,7 +10,6 @@ use T3\FluidPageCache\Services\PageCacheReport;
 use TYPO3\CMS\Backend\Routing\PreviewUriBuilder;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Localization\LanguageService;
@@ -19,10 +18,9 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 class BackendModuleController extends ActionController
 {
     public function __construct(
-        private readonly ModuleTemplateFactory $moduleTemplateFactory,
-        private readonly CacheManager $cacheManager,
-        private readonly PageCacheReport $pageCacheReport,
         private readonly IconFactory $iconFactory,
+        private readonly ModuleTemplateFactory $moduleTemplateFactory,
+        private readonly PageCacheReport $pageCacheReport,
     ) {
     }
 
@@ -33,7 +31,7 @@ class BackendModuleController extends ActionController
 
         $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 
-        $cacheBackendName = $this->pageCacheReport->getPagesCacheBackendName($this->cacheManager);
+        $cacheBackendName = $this->pageCacheReport->getPagesCacheBackendName();
         $method = 'list' . $cacheBackendName . 'Entries';
 
         $previewDataAttributes = null;
@@ -52,7 +50,7 @@ class BackendModuleController extends ActionController
         $moduleTemplate->assign('now', new \DateTime());
         $moduleTemplate->assign('cacheBackendSupported', method_exists($this->pageCacheReport, $method));
         $moduleTemplate->assign('cacheBackendName', $cacheBackendName);
-        $moduleTemplate->assign('cacheBackendNameFull', $this->pageCacheReport->getPagesCacheBackendName($this->cacheManager, false));
+        $moduleTemplate->assign('cacheBackendNameFull', $this->pageCacheReport->getPagesCacheBackendName(false));
 
         $buttonBar = $moduleTemplate->getDocHeaderComponent()->getButtonBar();
 
