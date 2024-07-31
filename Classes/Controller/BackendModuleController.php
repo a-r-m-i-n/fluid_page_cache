@@ -4,7 +4,7 @@ namespace T3\FluidPageCache\Controller;
 /*  | This extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2019-2023 Armin Vieweg <info@v.ieweg.de>
+ *  | (c) 2019-2024 Armin Vieweg <info@v.ieweg.de>
  */
 use T3\FluidPageCache\Services\PageCacheReport;
 use TYPO3\CMS\Backend\Routing\PreviewUriBuilder;
